@@ -64,14 +64,26 @@ La skill detecta automáticamente si ya existen archivos de gobernanza:
 OK_Init
     │
     ├── ¿Existen archivos?
-    │   ├── NO → Preguntas → Generar archivos → Empezar
-    │   └── SÍ → ¿Qué quieres hacer?
-    │       ├── Continuar → Leer estado → Empezar
-    │       ├── Regenerar → Preguntas → Sobreescribir
-    │       └── Nuevo proyecto → Preguntas → Generar en subdir
+    │   ├── SÍ → ¿Qué quieres hacer?
+    │   │   ├── Continuar → Leer estado → Empezar
+    │   │   ├── Regenerar → Preguntas → Sobreescribir
+    │   │   └── Nuevo proyecto → Preguntas → Generar en subdir
+    │   └── NO → ¿Qué quieres hacer?
+    │       ├── Preguntar todo → 9 preguntas → Generar
+    │       └── Usar contexto → Resumen de conversación → Generar
     │
     └── Protocolo de Sesión
 ```
+
+### Caso de uso: "Usar contexto"
+
+Si ya estás chateando con la IA sobre tu proyecto y luego invocas `OK_Init`:
+
+1. La IA detecta que no hay archivos de gobernanza
+2. Pregunta si quieres usar el contexto de la conversación
+3. Resume las decisiones que identificó (proyecto, kernel, módulos, stack, etc.)
+4. Pides confirmación o ajustes
+5. Genera los 5 archivos con esos datos
 
 ## Ejemplo de salida
 

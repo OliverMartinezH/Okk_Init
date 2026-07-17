@@ -17,7 +17,40 @@ Antes de hacer preguntas, verifica si existen los archivos de gobernanza en el d
 1. Buscar `Proyecto *.md` en el directorio actual
 2. Buscar `agent.md`, `stack.md`, `progress.md`, `history.md`
 
-#### Si los archivos NO existen → Ir al Paso 1
+#### Si los archivos NO existen → Preguntar:
+
+> [!note] Nuevo proyecto
+> No encontré archivos de gobernanza en este directorio.
+
+| Opción | Descripción |
+|--------|-------------|
+| **Preguntar todo** | Te hago las 9 preguntas para configurar todo |
+| **Usar contexto** | Genero los archivos basándome en lo que hemos discutido |
+
+**Si elige "Preguntar todo":**
+→ Ir al Paso 1 (9 preguntas)
+
+**Si elige "Usar contexto":**
+1. Leer toda la conversación actual
+2. Extraer las decisiones tomadas (nombre proyecto, kernel, módulos, stack, DB, testing, UI, auth, esquemas)
+3. Mostrar resumen al usuario:
+
+> [!tip] Decisiones captadas
+> Estas son las decisiones que identifiqué en nuestra conversación:
+> - **Proyecto:** [nombre]
+> - **Kernel:** [nombre]
+> - **Módulos:** [lista]
+> - **Stack:** [tecnología]
+> - **DB:** [base de datos]
+> - **Testing:** [framework]
+> - **UI:** [framework]
+> - **Auth:** [estrategia]
+> - **Esquemas:** [esquemas]
+
+4. Preguntar: "¿Todo está correcto? ¿O falta algo?"
+5. Si hay datos faltantes → preguntar solo esos
+6. Generar los 5 archivos
+7. Ir al **Protocolo de Sesión**
 
 #### Si los archivos SÍ existen → Mostrar este menú:
 
