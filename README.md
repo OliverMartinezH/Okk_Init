@@ -120,10 +120,12 @@ cp ok-init.md .opencode/skills/
 
 Type any of these triggers in opencode:
 
-```
-ok init
-ok sigamos
-```
+| Command | Action |
+|---------|--------|
+| `ok init` | Detect files → continue or generate |
+| `ok sigamos` | Same as `ok init` |
+| `ok sync` | Audit MD vs actual code |
+| `ok status` | Show project status dashboard |
 
 ### Smart Detection
 
@@ -182,6 +184,57 @@ AI: Here's what I captured:
 You: yes
 
 AI: [generates 5 files]
+```
+
+---
+
+## Commands
+
+### `ok init` / `ok sigamos`
+
+Detect if governance files exist and either continue or generate new ones.
+
+```
+ok init
+    │
+    ├── Files exist?
+    │   ├── YES → Read state → Continue working
+    │   └── NO → New project?
+    │       ├── Ask all → 6 questions → Generate
+    │       └── Use context → Summarize chat → Generate
+    │
+    └── Session Protocol
+```
+
+### `ok sync`
+
+Audit governance files against actual code. **Never deletes entries** — marks them as "Not built" instead.
+
+```
+📊 Sync Report - NexusPlatform
+
+✅ Synced (12):
+- Phase 1: Core (complete)
+- Entity: Client
+
+➕ New in code (3):
+- src/Services/PaymentService.cs
+
+⏸️ Pending - Not built (2):
+- progress.md: "3.2 Add validation" → code doesn't exist
+```
+
+### `ok status`
+
+Show a visual dashboard of the project status.
+
+```
+📊 NexusPlatform - Estado del Arte
+
+Progreso: ████████░░░░░░░░░░░░ 40% (10/25)
+Fase actual: 2 - Business Logic
+Última sesión: 16/07/2026 - Phase 1 completed
+Próximo paso: 2.1 Create domain entities
 ```
 
 ---
@@ -330,6 +383,20 @@ OK_Init genera **5 archivos de gobernanza** que actúan como base de conocimient
 |---------|--------|
 | `ok init` | Detectar archivos → continuar o generar |
 | `ok sigamos` | Igual que `ok init` |
+| `ok sync` | Auditar MD vs código real |
+| `ok status` | Mostrar dashboard del estado del arte |
+
+### `ok sync` (Auditoría)
+
+Compara los MD con el código real. **Nunca borra entradas** — las marca como "No construido".
+
+### `ok status` (Dashboard)
+
+Muestra un resumen visual del estado del proyecto:
+- Barra de progreso
+- Fase actual
+- Última sesión
+- Próximo paso
 
 ---
 

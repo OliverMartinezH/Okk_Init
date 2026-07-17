@@ -1,7 +1,7 @@
 # OK_Init — Project Governance Skill
 
 **Name:** ok-init
-**Triggers:** `ok init`, `ok sigamos`
+**Triggers:** `ok init`, `ok sigamos`, `ok sync`, `ok status`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
 ---
@@ -433,7 +433,7 @@ After generating files, instruct the user on the workflow:
 
 ## Trigger: "ok sigamos"
 
-If the user types "ok sigamos" (or variants like "ok sigamos", "sigamos"):
+If the user types "ok sigamos":
 
 1. Verify governance files exist
 2. If they do NOT exist → inform and suggest `ok init`
@@ -441,6 +441,90 @@ If the user types "ok sigamos" (or variants like "ok sigamos", "sigamos"):
 4. Read `progress.md`, `agent.md`, `stack.md`
 5. Show summary of current state
 6. Ask: "What do you want to do now?"
+
+---
+
+## Trigger: "ok sync"
+
+If the user types "ok sync":
+
+1. Verify governance files exist
+2. If they do NOT exist → inform and suggest `ok init`
+3. If they DO exist → proceed with sync audit:
+
+### Sync Rules
+
+| Situation | Action |
+|-----------|--------|
+| Code exists, MD doesn't document | ADD to MD |
+| MD documents, code exists | ✅ Synced (no change) |
+| MD documents, code DOESN'T exist | MARK as "Not built" (do NOT delete) |
+| MD documents, code was DELETED | MARK as "Removed" (do NOT delete) |
+
+### Sync Flow
+
+1. Read all 5 governance files
+2. Scan actual code structure (glob patterns)
+3. Compare using sync rules
+4. Show report:
+
+```
+📊 Sync Report - {{PROJECT_NAME}}
+
+✅ Synced (12):
+- Phase 1: Core (complete)
+- Entity: Client
+- Endpoint: GET /api/clients
+
+➕ New in code (3):
+- src/Services/PaymentService.cs
+- src/Controllers/WebhookController.cs
+
+⏸️ Pending - Not built (2):
+- progress.md: "3.2 Add validation" → code doesn't exist
+- agent.md: "Payment module" → not implemented
+
+❌ Removed from code (1):
+- stack.md: "LegacyService" → removed
+```
+
+5. Ask: "Do you want to update the MD files?"
+6. If yes → update MD (keep entries, change status)
+7. If no → show report only
+
+> [!warning] Never delete entries
+> When code doesn't exist, MARK as "Not built" instead of deleting from MD.
+> The MD files represent the plan/vision, not just what's built.
+
+---
+
+## Trigger: "ok status"
+
+If the user types "ok status":
+
+1. Verify governance files exist
+2. If they do NOT exist → inform and suggest `ok init`
+3. If they DO exist → read all 5 MD files and show dashboard:
+
+### Dashboard Format
+
+```
+📊 {{PROJECT_NAME}} - Estado del Arte
+
+Progreso: ████████░░░░░░░░░░░░ 40% (10/25)
+Fase actual: 2 - Business Logic
+Última sesión: 16/07/2026 - Phase 1 completed
+Próximo paso: 2.1 Create domain entities
+```
+
+### What to show
+
+| Field | Source |
+|-------|--------|
+| Progress bar | `progress.md` (count checked/unchecked) |
+| Current phase | `progress.md` (current phase section) |
+| Last session | `history.md` (most recent entry) |
+| Next step | `progress.md` (first unchecked task) |
 
 ---
 
