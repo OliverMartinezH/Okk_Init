@@ -1,98 +1,56 @@
-# OK_Init — Skill de Inicialización de Proyecto
+# OK_Init — Project Governance Skill
 
-Skill para [opencode](https://opencode.ai) que genera un sistema de gobernanza completo para proyectos .NET con Arquitectura Hexagonal.
+> **For [opencode](https://opencode.ai)** — Generate a complete governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
-## Qué genera
+[![Obsidian](https://img.shields.io/badge/Obsidian-ready-7C3AED?style=flat-square&logo=obsidian)](https://obsidian.md)
+[![opencode](https://img.shields.io/badge/opencode-000000?style=flat-square)](https://opencode.ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-La skill crea **5 archivos** al iniciar un nuevo proyecto:
+---
 
-| Archivo | Propósito |
-|---------|-----------|
-| `Proyecto {{NAME}}.md` | Mapa arquitectónico del proyecto |
-| `agent.md` | Reglas de código + historial de decisiones |
-| `stack.md` | Stack técnico + modelo de datos + estándar UI |
-| `progress.md` | Estado actual + próximo paso |
-| `history.md` | Memoria acumulativa de fases completadas |
+## What is OK_Init?
 
-## Características
+OK_Init generates **5 governance files** that act as a knowledge base for your project. These files are:
 
-- **Obsidian-ready:** Todos los archivos MD se enlazan entre sí con `[[wiki-links]]`
-- **Callouts:** Incluye `> [!note]`, `> [!tip]`, `> [!warning]`, `> [!important]`
-- **Graph view:** Obsidian genera automáticamente el grafo de relaciones
-- **Mock data realista:** Ejemplo con NexusPlatform, NexusCore, NexusCRM, etc.
-- **Protocolo KISS:** Incluye instrucciones de sesión (inicio → código → aprobación → actualización)
-- **9 preguntas personalizables:** Proyecto, Kernel, módulos, stack, DB, testing, UI, auth, esquemas
+- **Obsidian-ready** with `[[wiki-links]]` between them
+- **Self-updating** as your project evolves
+- **Tech-agnostic** — works with .NET, Node.js, Python, or anything
 
-## Instalación
+### The 5 Files
 
-### Opción 1: Local (solo este proyecto)
+| File | Purpose | Obsidian Link |
+|------|---------|---------------|
+| `Proyecto [NAME].md` | Architectural map of your project | Links to all other files |
+| `agent.md` | Coding rules + decision history | `[[stack]]` `[[progress]]` |
+| `stack.md` | Tech stack + data model + UI standard | `[[agent]]` `[[progress]]` |
+| `progress.md` | Current state + next step | `[[history]]` `[[stack]]` |
+| `history.md` | Accumulated memory of completed phases | `[[progress]]` |
 
-Copia `ok-init.md` a `.opencode/skills/` en tu workspace:
+---
 
-```
-tu-proyecto/
-└── .opencode/
-    └── skills/
-        └── ok-init.md
-```
+## Obsidian Integration
 
-### Opción 2: Global (todos los proyectos)
+### How It Works
 
-Copia `ok-init.md` a `~/.config/opencode/skills/`:
+Each file starts with wiki-links to the other files:
 
-```
-~/.config/opencode/skills/
-└── ok-init.md
+```markdown
+# Agent Instructions: MyProject
+
+> **Map:** Ver [[Proyecto MyProject]]
+> **Stack:** Ver [[stack]]
+> **Status:** Ver [[progress]]
+> **History:** Ver [[history]]
 ```
 
-## Uso
+### Graph View in Obsidian
 
-En opencode, escribe cualquiera de estos comandos:
-
-```
-OK_Init
-ok init
-iniciar proyecto
-nuevo proyecto
-empezar proyecto
-setup proyecto
-```
-
-La skill detecta automáticamente si ya existen archivos de gobernanza:
-
-```
-OK_Init
-    │
-    ├── ¿Existen archivos?
-    │   ├── SÍ → ¿Qué quieres hacer?
-    │   │   ├── Continuar → Leer estado → Empezar
-    │   │   ├── Regenerar → Preguntas → Sobreescribir
-    │   │   └── Nuevo proyecto → Preguntas → Generar en subdir
-    │   └── NO → ¿Qué quieres hacer?
-    │       ├── Preguntar todo → 9 preguntas → Generar
-    │       └── Usar contexto → Resumen de conversación → Generar
-    │
-    └── Protocolo de Sesión
-```
-
-### Caso de uso: "Usar contexto"
-
-Si ya estás chateando con la IA sobre tu proyecto y luego invocas `OK_Init`:
-
-1. La IA detecta que no hay archivos de gobernanza
-2. Pregunta si quieres usar el contexto de la conversación
-3. Resume las decisiones que identificó (proyecto, kernel, módulos, stack, etc.)
-4. Pides confirmación o ajustes
-5. Genera los 5 archivos con esos datos
-
-## Ejemplo de salida
-
-### Graph view en Obsidian
+This creates an interactive graph in Obsidian:
 
 ```
 ┌──────────────────┐
 │  Proyecto        │
-│  NexusPlatform   │
+│  MyProject       │
 └────────┬─────────┘
          │
     ┌────┴────┐
@@ -109,54 +67,283 @@ Si ya estás chateando con la IA sobre tu proyecto y luego invocas `OK_Init`:
 └────────┘ └────────┘
 ```
 
-### Mock Data (ejemplo)
+Click any `[[link]]` to navigate between files. Obsidian automatically shows the relationship graph.
 
-1. Nombre del proyecto → `NexusPlatform`
-2. Nombre del Kernel → `NexusCore`
-3. Módulos de negocio → `NexusCRM, NexusInventario, NexusRRHH`
-4. Stack tecnológico → `.NET 10 + C# 14`
-5. Base de datos → `SQL Server 2022`
-6. Framework testing → `xUnit + Moq`
-7. Framework UI → `Tailwind CDN`
-8. Estrategia auth → `Cookie Authentication con PasswordHasher`
-9. Esquemas DB → `nexus_core, nexus_crm, nexus_inv, nexus_rrhh`
+### Callouts
 
-## Protocolo de Sesión
+The generated files use Obsidian callouts for visual emphasis:
 
-La skill incluye un protocolo de trabajo KISS:
+| Callout | Usage |
+|---------|-------|
+| `> [!note]` | General information |
+| `> [!tip]` | Helpful tips and recommendations |
+| `> [!warning]` | Important rules and constraints |
+| `> [!important]` | Critical architectural decisions |
 
-### Al INICIO:
-- Leer `progress.md` → fase actual
-- Leer `agent.md` → reglas vigentes
-- Leer `stack.md` → decisiones técnicas
+Example:
 
-### Al FINAL (tras aprobación):
-1. `progress.md` → marcar completado + próximo paso
-2. `history.md` → mover fase con fecha
-3. `stack.md` → documentar decisiones nuevas
-4. `agent.md` → documentar reglas nuevas
+```markdown
+> [!tip] First step
+> Start with Phase 0: Testing Infrastructure.
+> Create the test project and validate the Result pattern.
+```
 
-> **Regla de oro:** Los archivos solo se actualizan DESPUÉS de aprobación del usuario.
+### Tags
 
-## Estructura de archivos generados
+Files include tags for filtering in Obsidian:
+
+- `#fase/0`, `#fase/1`, `#fase/2` — Phase tags
+- `#modulo/NOMBRE` — Module tags (if applicable)
+
+---
+
+## Quick Start
+
+### Installation
+
+**Global (all projects):**
+
+```bash
+# Copy to global skills directory
+cp ok-init.md ~/.config/opencode/skills/
+```
+
+**Local (single project):**
+
+```bash
+# Copy to your project's .opencode directory
+mkdir -p .opencode/skills
+cp ok-init.md .opencode/skills/
+```
+
+### Usage
+
+Type any of these triggers in opencode:
 
 ```
-tu-proyecto/
-├── Proyecto [TU_PROYECTO].md
+ok init
+ok sigamos
+```
+
+### Smart Detection
+
+The skill automatically detects if governance files already exist:
+
+```
+ok init
+    │
+    ├── Files exist?
+    │   ├── YES → Read state → Continue working
+    │   └── NO → New project?
+    │       ├── Ask all → 6 questions → Generate
+    │       └── Use context → Summarize chat → Generate
+    │
+    └── Session Protocol
+```
+
+### Continue an Existing Project
+
+If you open a new window in a project that already has governance files:
+
+```
+USUARIO: ok sigamos
+
+AI: [reads progress.md, agent.md, stack.md]
+AI: We're in Phase 2.1 - Creating domain entities.
+    Next step: Create Client entity with RUT, Name, Email.
+    Shall I proceed?
+```
+
+No menus. No questions. Just continue.
+
+### "Use Context" Mode
+
+If you've been chatting about your project and then invoke the skill:
+
+```
+You: [chatting about your project...]
+You: ok init
+
+AI: No governance files found.
+    Want me to generate them based on our conversation?
+
+You: yes
+
+AI: Here's what I captured:
+    - Project: NexusPlatform
+    - Stack: .NET 10
+    - Database: SQL Server 2022
+    - Testing: xUnit
+    - UI: Tailwind CDN
+    - Auth: Cookie
+
+    Is this correct?
+
+You: yes
+
+AI: [generates 5 files]
+```
+
+---
+
+## Questions Asked
+
+| # | Question | Default |
+|---|----------|---------|
+| 1 | Project name | *(required)* |
+| 2 | Tech stack | `.NET 10 + C# 14` |
+| 3 | Database | `SQL Server 2022` |
+| 4 | Testing framework | `xUnit + Moq` |
+| 5 | UI framework | `Tailwind CDN` |
+| 6 | Auth strategy | `Cookie Authentication` |
+
+Press **Enter** to accept the default, or type your own.
+
+---
+
+## Session Protocol
+
+### Start of Session
+
+1. Read `progress.md` → current phase and next step
+2. Read `agent.md` → rules and decisions
+3. Read `stack.md` → technical decisions
+
+### During Session
+
+- Generate code **only for the current step**
+- If ambiguous, **ask before coding**
+- Minor dependencies: create stub with `// TODO`
+
+### End of Session (after user approval)
+
+1. `progress.md` → mark completed + set next step
+2. `history.md` → move phase with date (DD/MM/YYYY HH:MM)
+3. `stack.md` → document new technical decisions
+4. `agent.md` → document new rules/decisions
+
+> **Golden rule:** Files are **only updated AFTER user approval**.
+
+---
+
+## File Structure
+
+```
+your-project/
+├── Proyecto [YOUR_PROJECT].md
 ├── agent.md
 ├── stack.md
 ├── progress.md
 ├── history.md
-└── opencode.json (si no existía)
+└── opencode.json (if not exists)
 ```
 
-> El nombre del primer archivo se personaliza con el nombre de tu proyecto.
+---
 
-## Requisitos
+## Example Output
 
-- [opencode](https://opencode.ai) instalado
-- Obsidian (opcional, para ver los graph views)
+### `agent.md` (excerpt)
 
-## Licencia
+```markdown
+# Agent Instructions: NexusPlatform
+
+> **Map:** Ver [[Proyecto NexusPlatform]]
+> **Stack:** Ver [[stack]]
+> **Status:** Ver [[progress]]
+
+---
+
+## 1. Development Philosophy
+
+* **KISS:** Extreme simplicity
+* **Result Pattern:** No exceptions for business validations
+* **Auth:** Cookie + PasswordHasher
+
+---
+
+## 2. Decision History
+
+> [!note] Session history
+> This space fills automatically during development.
+
+* Pending first session.
+```
+
+### `stack.md` (excerpt)
+
+```markdown
+# Tech Stack: NexusPlatform
+
+> **Map:** Ver [[Proyecto NexusPlatform]]
+> **Rules:** Ver [[agent]]
+
+---
+
+## 1. Technologies
+
+* **Runtime:** .NET 10 + C# 14
+* **Database:** SQL Server 2022
+* **UI:** Tailwind CDN
+* **Testing:** xUnit + Moq
+```
+
+---
+
+## Requirements
+
+- [opencode](https://opencode.ai) installed
+- Obsidian (optional, for graph views)
+
+---
+
+## License
 
 MIT
+
+---
+
+# Spanish
+
+## Qué es OK_Init?
+
+OK_Init genera **5 archivos de gobernanza** que actúan como base de conocimiento para tu proyecto. Estos archivos son:
+
+- **Listos para Obsidian** con `[[wiki-links]]` entre ellos
+- **Auto-actualizables** a medida que evoluciona tu proyecto
+- **Independientes del stack** — funciona con .NET, Node.js, Python, o cualquier tecnología
+
+### Los 5 Archivos
+
+| Archivo | Propósito | Enlace Obsidian |
+|---------|-----------|-----------------|
+| `Proyecto [NOMBRE].md` | Mapa arquitectónico del proyecto | Enlaza a todos los demás |
+| `agent.md` | Reglas de código + historial de decisiones | `[[stack]]` `[[progress]]` |
+| `stack.md` | Stack técnico + modelo de datos + estándar UI | `[[agent]]` `[[progress]]` |
+| `progress.md` | Estado actual + próximo paso | `[[history]]` `[[stack]]` |
+| `history.md` | Memoria acumulativa de fases completadas | `[[progress]]` |
+
+---
+
+## Triggers
+
+| Trigger | Acción |
+|---------|--------|
+| `ok init` | Detectar archivos → continuar o generar |
+| `ok sigamos` | Igual que `ok init` |
+
+---
+
+## Instalación
+
+**Global (todos los proyectos):**
+
+```bash
+cp ok-init.md ~/.config/opencode/skills/
+```
+
+**Local (un solo proyecto):**
+
+```bash
+mkdir -p .opencode/skills
+cp ok-init.md .opencode/skills/
+```

@@ -1,514 +1,377 @@
-# OK_Init — Skill de Inicialización de Proyecto con Gobernanza
+# OK_Init — Project Governance Skill
 
-**Nombre:** ok-init
-**Trigger:** "OK_Init", "ok init", "iniciar proyecto", "nuevo proyecto", "empezar proyecto", "setup proyecto"
-**Descripción:** Genera el sistema de gobernanza de 5 archivos MD para un proyecto .NET con Arquitectura Hexagonal, incluyendo enlaces Obsidian bidireccionales y protocolo de sesión KISS.
+**Name:** ok-init
+**Triggers:** `ok init`, `ok sigamos`
+**Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
 ---
 
-## Instrucciones para la IA
+## Instructions for the AI
 
-Cuando el usuario active esta skill, debes:
+When the user activates this skill, you must:
 
-### Paso 0: Detectar si el proyecto ya existe
+### Step 0: Detect if project already exists
 
-Antes de hacer preguntas, verifica si existen los archivos de gobernanza en el directorio actual:
+Before asking questions, check if governance files exist in the current directory:
 
-1. Buscar `Proyecto *.md` en el directorio actual
-2. Buscar `agent.md`, `stack.md`, `progress.md`, `history.md`
+1. Search for `Proyecto *.md` in the current directory
+2. Search for `agent.md`, `stack.md`, `progress.md`, `history.md`
 
-#### Si los archivos NO existen → Preguntar:
+#### If files do NOT exist → Ask:
 
-> [!note] Nuevo proyecto
-> No encontré archivos de gobernanza en este directorio.
+> [!note] New project
+> No governance files found in this directory.
 
-| Opción | Descripción |
+| Option | Description |
 |--------|-------------|
-| **Preguntar todo** | Te hago las 9 preguntas para configurar todo |
-| **Usar contexto** | Genero los archivos basándome en lo que hemos discutido |
+| **Ask all** | I'll ask 6 questions to configure everything |
+| **Use context** | Generate files based on what we've discussed |
 
-**Si elige "Preguntar todo":**
-→ Ir al Paso 1 (9 preguntas)
+**If "Ask all":**
+→ Go to Step 1 (6 questions)
 
-**Si elige "Usar contexto":**
-1. Leer toda la conversación actual
-2. Extraer las decisiones tomadas (nombre proyecto, kernel, módulos, stack, DB, testing, UI, auth, esquemas)
-3. Mostrar resumen al usuario:
+**If "Use context":**
+1. Read the entire current conversation
+2. Extract decisions made (project name, stack, database, testing, UI, auth)
+3. Show summary to user:
 
-> [!tip] Decisiones captadas
-> Estas son las decisiones que identifiqué en nuestra conversación:
-> - **Proyecto:** [nombre]
-> - **Kernel:** [nombre]
-> - **Módulos:** [lista]
-> - **Stack:** [tecnología]
-> - **DB:** [base de datos]
+> [!tip] Captured decisions
+> Here's what I identified from our conversation:
+> - **Project:** [name]
+> - **Stack:** [technology]
+> - **Database:** [database]
 > - **Testing:** [framework]
 > - **UI:** [framework]
-> - **Auth:** [estrategia]
-> - **Esquemas:** [esquemas]
+> - **Auth:** [strategy]
 
-4. Preguntar: "¿Todo está correcto? ¿O falta algo?"
-5. Si hay datos faltantes → preguntar solo esos
-6. Generar los 5 archivos
-7. Ir al **Protocolo de Sesión**
+4. Ask: "Is this correct? Anything missing?"
+5. If data is missing → ask only those questions
+6. Generate the 5 files
+7. Go to **Session Protocol**
 
-#### Si los archivos SÍ existen → Mostrar este menú:
+#### If files DO exist → Continue directly:
 
-> [!note] Proyecto detectado
-> Se encontraron archivos de gobernanza existentes en este directorio.
-
-Preguntar al usuario:
-> ¿Qué quieres hacer?
-
-| Opción | Descripción |
-|--------|-------------|
-| **Continuar** | Leer el estado actual y empezar a trabajar |
-| **Regenerar** | Sobreescribir los archivos con nuevos datos |
-| **Nuevo proyecto** | Generar archivos en un subdirectorio nuevo |
-
-**Si elige "Continuar":**
-1. Leer `progress.md` → mostrar fase actual y próximo paso inmediato
-2. Leer `agent.md` → mostrar reglas vigentes
-3. Leer `stack.md` → mostrar decisiones técnicas
-4. Mostrar resumen del estado actual
-5. Preguntar: "¿Qué quieres hacer ahora?"
-6. Ir directo al **Protocolo de Sesión**
-
-**Si elige "Regenerar":**
-1. Preguntar los 9 datos (Paso 1)
-2. Sobreescribir los archivos existentes
-3. Confirmar creación
-
-**Si elige "Nuevo proyecto":**
-1. Preguntar nombre del subdirectorio
-2. Preguntar los 9 datos (Paso 1)
-3. Generar archivos en el subdirectorio
+1. Read `progress.md` → current phase and next step
+2. Read `agent.md` → rules and decisions
+3. Read `stack.md` → technical decisions
+4. Show summary of current state
+5. Ask: "What do you want to do now?"
+6. Go to **Session Protocol**
 
 ---
 
-### Paso 1: Recopilar datos (9 preguntas)
+### Step 1: Collect data (6 questions)
 
-Haz las siguientes preguntas **una por una** o **en grupo** (máximo 3 por mensaje para no abrumar):
+Ask these questions **one by one** or **in groups** (max 3 per message to avoid overwhelm):
 
-| # | Pregunta | Variable | Mock Data (ejemplo) |
-|---|----------|----------|---------------------|
-| 1 | ¿Cuál es el nombre del proyecto? | `{{PROJECT_NAME}}` | NexusPlatform |
-| 2 | ¿Cuál es el nombre del módulo central/Kernel? | `{{KERNEL_NAME}}` | NexusCore |
-| 3 | ¿Cuáles son los módulos de negocio? (separados por coma) | `{{MODULES}}` | NexusCRM, NexusInventario, NexusRRHH |
-| 4 | ¿Qué stack tecnológico usas? | `{{STACK}}` | .NET 10 + C# 14 |
-| 5 | ¿Qué base de datos usas? | `{{DATABASE}}` | SQL Server 2022 |
-| 6 | ¿Qué framework de testing usas? | `{{TEST_FRAMEWORK}}` | xUnit + Moq |
-| 7 | ¿Qué framework UI/CSS usas? | `{{UI_FRAMEWORK}}` | Tailwind CDN |
-| 8 | ¿Qué estrategia de autenticación usas? | `{{AUTH_STRATEGY}}` | Cookie Authentication con PasswordHasher |
-| 9 | ¿Cuáles son los esquemas de DB por módulo? | `{{DB_SCHEMAS}}` | nexus_core, nexus_crm, nexus_inv, nexus_rrhh |
+| # | Question | Variable | Default |
+|---|----------|----------|---------|
+| 1 | What's the project name? | `{{PROJECT_NAME}}` | *(required)* |
+| 2 | What tech stack? (Enter for default) | `{{STACK}}` | .NET 10 + C# 14 |
+| 3 | What database? (Enter for default) | `{{DATABASE}}` | SQL Server 2022 |
+| 4 | What testing framework? (Enter for default) | `{{TEST_FRAMEWORK}}` | xUnit + Moq |
+| 5 | What UI framework? (Enter for default) | `{{UI_FRAMEWORK}}` | Tailwind CDN |
+| 6 | What auth strategy? (Enter for default) | `{{AUTH_STRATEGY}}` | Cookie Authentication |
 
-### Paso 2: Generar los 5 archivos
-
-Genera los siguientes archivos en el directorio de trabajo actual:
+If user presses Enter without typing, use the default value.
 
 ---
 
-#### Archivo 1: `Proyecto {{PROJECT_NAME}}.md`
+### Step 2: Generate the 5 files
+
+Generate the following files in the current working directory:
+
+---
+
+#### File 1: `Proyecto {{PROJECT_NAME}}.md`
 
 ```markdown
-# Mapa del Proyecto: Ecosistema {{PROJECT_NAME}}
+# Mapa del Proyecto: {{PROJECT_NAME}}
 
-> **Contexto técnico:** Ver [[stack]]
-> **Reglas de desarrollo:** Ver [[agent]]
-> **Estado de avance:** Ver [[progress]]
-
----
-
-## Filosofía de Desarrollo
-
-* **Gobernanza desde el Kernel:** Ningún módulo decide de forma autónoma si está disponible o no. Todo se valida consultando la infraestructura de `{{KERNEL_NAME}}`.
-* **Simplicidad Extrema (KISS):** Evita la sobre-ingeniería. El encendido/apagado se gestiona mediante un filtro global que lee un flag del módulo en base de datos o caché.
-* **Gestión de Errores:** No uses excepciones para controlar validaciones de negocio. Utiliza exclusivamente la estructura `Result` o `Result<T>` nativa de .NET 10 para notificar fallos lógicos desde la capa de aplicación.
-* **Autenticación:** {{AUTH_STRATEGY}}. `AuthorizeFilter` global.
-* **Control de Acceso:** Filtro guardián que verifica:
-  1. ¿El módulo está activo en DB?
-  2. ¿El rol del usuario autenticado tiene acceso al módulo?
+> **Technical context:** Ver [[stack]]
+> **Development rules:** Ver [[agent]]
+> **Current status:** Ver [[progress]]
 
 ---
 
-## Arquitectura y Componentes
+## Development Philosophy
 
-### Capa Core e Infraestructura Central
-* **Control Global:** `{{PROJECT_NAME}}.{{KERNEL_NAME}}.Core` — Contenedor del patrón `Result`, entidades de seguridad.
-* **Base de Datos Principal:** `{{PROJECT_NAME}}.{{KERNEL_NAME}}.Infrastructure` — `DbContext` central, repositorios, filtro guardián, `AuthService`.
-* **Panel de Control:** `{{PROJECT_NAME}}.{{KERNEL_NAME}}.AdminUI` — Razor Class Library con panel administrativo, controladores, vistas.
-
-### Módulos de Negocio
-{{#each MODULES}}
-* **{{this}}:**
-  * Domain → Entidades 3NF y puertos de salida (interfaces)
-  * Application → Casos de uso con patrón `Result`
-  * Infrastructure → `DbContext` del módulo y repositorios EF Core
-  * Presentation → Controlador con atributo de módulo y vistas Razor
-{{/each}}
-
-### Calidad y Pruebas
-* **Pruebas:** `tests/{{PROJECT_NAME}}.Tests` — Espejo de pruebas unitarias en **{{TEST_FRAMEWORK}}**.
+* **Simplicity First (KISS):** Avoid over-engineering. Keep things simple and maintainable.
+* **Error Handling:** Use a Result Pattern or similar (no exceptions for business validations).
+* **Testing:** Every new feature MUST have unit tests before completion.
 
 ---
 
-## Hoja de Ruta de Construcción
+## Architecture
 
-1. 🟩 **Fase 0:** Infraestructura de Testing
-2. 🟩 **Fase 1:** El Exoesqueleto ({{KERNEL_NAME}})
-{{#each MODULES}}
-{{@index_plus_two}}. 🟨 **Fase {{@index_plus_two}}:** Módulo {{this}}
-{{/each}}
-{{@last_plus_one}}. ⬛ **Fase Final:** Ensamblaje en `{{PROJECT_NAME}}.WebHost`
+### Core
+* **Business Logic:** `{{PROJECT_NAME}}.Application` — Use cases and services
+* **Data Access:** `{{PROJECT_NAME}}.Infrastructure` — Database context and repositories
+* **Presentation:** `{{PROJECT_NAME}}.Web` — API controllers or UI views
+
+### Quality
+* **Tests:** `tests/{{PROJECT_NAME}}.Tests` — Unit tests with **{{TEST_FRAMEWORK}}**
+
+---
+
+## Roadmap
+
+1. Core infrastructure (Result pattern, base entities)
+2. Data access layer
+3. Business logic
+4. Presentation layer
+5. Testing
 ```
 
 ---
 
-#### Archivo 2: `agent.md`
+#### File 2: `agent.md`
 
 ```markdown
-# Agent Instructions: Generación de Código Ecosistema {{PROJECT_NAME}}
+# Agent Instructions: {{PROJECT_NAME}}
 
-> **Mapa del proyecto:** Ver [[Proyecto {{PROJECT_NAME}}]]
-> **Stack tecnológico:** Ver [[stack]]
-> **Estado actual:** Ver [[progress]]
-> **Historial de fases:** Ver [[history]]
-
----
-
-## 1. Filosofía de Desarrollo Obligatoria
-
-* **Gobernanza desde el Kernel:** Ningún módulo decide de forma autónoma si está disponible o no. Todo se valida consultando la infraestructura de `{{KERNEL_NAME}}`.
-* **Simplicidad Extrema (KISS):** Evita la sobre-ingeniería. El encendido/apagado se gestiona mediante un filtro global que lee un flag del módulo en base de datos o caché.
-* **Gestión de Errores:** No uses excepciones para controlar validaciones de negocio. Utiliza exclusivamente la estructura `Result` o `Result<T>` nativa de .NET 10 para notificar fallos lógicos desde la capa de aplicación.
-* **Autenticación:** {{AUTH_STRATEGY}}. `AuthorizeFilter` global.
-* **Control de Acceso:** Filtro guardián que verifica:
-  1. ¿El módulo está activo en DB?
-  2. ¿El rol del usuario autenticado tiene acceso al módulo?
+> **Project map:** Ver [[Proyecto {{PROJECT_NAME}}]]
+> **Tech stack:** Ver [[stack]]
+> **Current status:** Ver [[progress]]
+> **History:** Ver [[history]]
 
 ---
 
-## 2. Directrices de Testing
+## 1. Development Philosophy
 
-* Cada proyecto en `src/` tiene su espejo de tests en `tests/` con el sufijo `.Tests`.
-* Framework: **{{TEST_FRAMEWORK}}**.
-* Nombre de métodos: `[Método]_[Escenario]_[ResultadoEsperado]`.
-* Todo el código nuevo DEBE tener tests unitarios antes de darse por completado.
-
----
-
-## 3. Hoja de Ruta para la Generación de Código
-
-### Paso 1: Infraestructura Base de {{KERNEL_NAME}}
-1. **Core:** Crear la clase contenedora del patrón `Result`.
-2. **Infrastructure:** Crear el `{{KERNEL_NAME}}DbContext` asignado al esquema correspondiente.
-3. **Filtro Guardián:** Crear un `ActionFilterAttribute` global llamado `ModuleGatekeeperFilter`.
-4. **AdminUI:** Crear el proyecto Razor Class Library con el panel administrativo.
-5. **Menú Dinámico:** ViewComponent de navegación que oculta/muestra módulos según su estado.
-
-{{#each MODULES}}
-### Paso {{@index_plus_two}}: Desarrollo del Módulo {{this}}
-1. **Domain:** Generar las entidades en 3NF. Definir interfaz del repositorio.
-2. **Application:** Escribir casos de uso con patrón `Result`. Un caso de uso por clase con método `EjecutarAsync`.
-3. **Infrastructure:** Configurar el `{{this}}DbContext` apuntando al esquema correspondiente. Implementar repositorio concreto.
-4. **Presentation:** Desarrollar controlador con atributo de módulo y vistas Razor.
-{{/each}}
-
-### Paso Final: Ensamblaje en {{PROJECT_NAME}}.WebHost
-1. Configurar `Program.cs` para inyectar los `DbContext` de cada esquema.
-2. Instalar el filtro guardián de forma global en el pipeline de MVC.
-3. Generar la barra de navegación del Layout principal.
+* **Simplicity First (KISS):** Avoid over-engineering. Keep things simple and maintainable.
+* **Error Handling:** Use a Result Pattern or similar (no exceptions for business validations).
+* **Testing:** Every new feature MUST have unit tests before completion.
 
 ---
 
-## 4. Decisiones y Reglas Acordadas
+## 2. Testing Guidelines
 
-> [!note] Historial de sesiones
-> Este espacio se llena automáticamente durante el desarrollo.
-> Las decisiones acordadas se registran aquí para referencia futura.
+* Framework: **{{TEST_FRAMEWORK}}**
+* Method naming: `[Method]_[Scenario]_[ExpectedResult]`
+* All new code MUST have unit tests before completion.
 
-* Pendiente de primera sesión de desarrollo.
+---
+
+## 3. Roadmap for Code Generation
+
+### Step 1: Core Infrastructure
+1. Create the Result pattern class/container
+2. Create base entities
+3. Set up project structure
+
+### Step 2: Data Access
+1. Create database context
+2. Configure entity mappings
+3. Implement repositories
+
+### Step 3: Business Logic
+1. Create use cases / services
+2. Implement business rules with Result pattern
+3. Add validation logic
+
+### Step 4: Presentation
+1. Create controllers/views
+2. Wire up dependency injection
+3. Add routing
+
+### Step 5: Testing
+1. Write unit tests for each layer
+2. Ensure all tests pass
+
+---
+
+## 4. Decisions and Agreed Rules
+
+> [!note] Session history
+> This space fills automatically during development.
+> Agreed decisions are recorded here for future reference.
+
+* Pending first development session.
 ```
 
 ---
 
-#### Archivo 3: `stack.md`
+#### File 3: `stack.md`
 
 ```markdown
-# Tech Stack & Architectural Blueprint: {{PROJECT_NAME}} Monolith
+# Tech Stack: {{PROJECT_NAME}}
 
-> **Mapa del proyecto:** Ver [[Proyecto {{PROJECT_NAME}}]]
-> **Reglas de código:** Ver [[agent]]
-> **Estado actual:** Ver [[progress]]
+> **Project map:** Ver [[Proyecto {{PROJECT_NAME}}]]
+> **Rules:** Ver [[agent]]
+> **Status:** Ver [[progress]]
 
 ---
 
-## 1. Tecnologías Centrales
+## 1. Technologies
 
 * **Runtime:** {{STACK}}
-* **Enfoque:** Monolito Modular Limpio (Modular Monolith) bajo el principio KISS.
-* **Estilo Arquitectónico:** Arquitectura Hexagonal (Ports & Adapters) por cada módulo de negocio.
-* **Framework Web:** ASP.NET Core MVC con Vistas Razor integradas.
-* **Acceso a Datos:** Entity Framework Core 10 (Code-First) con un `DbContext` por módulo.
-* **Base de Datos:** {{DATABASE}} en un único contenedor con aislamiento por esquemas.
-* **Autenticación:** {{AUTH_STRATEGY}}.
-* **Testing:** {{TEST_FRAMEWORK}}.
-* **UI:** {{UI_FRAMEWORK}}.
+* **Approach:** Clean architecture under KISS principle
+* **Data Access:** Code-First with migrations
+* **Authentication:** {{AUTH_STRATEGY}}
+* **Testing:** {{TEST_FRAMEWORK}}
+* **UI:** {{UI_FRAMEWORK}}
 
 ---
 
-## 2. Gobernanza Central: {{KERNEL_NAME}}
+## 2. Data Model
 
-Toda la lógica transversal y el control del sistema se gestionan centralizadamente:
+> [!important] Data organization
+> Organize your data in separate modules or schemas for better isolation.
 
-* **Control de Estado:** Una tabla centralizada define si un módulo está activo o inactivo.
-* **Control de Acceso (Roles):** Cada rol tiene acceso a módulos específicos.
-* **Gobernanza de Acceso (KISS):** Un `ActionFilter` global intercepta los controladores.
-* **UI Dinámica:** La barra de navegación principal consulta al Kernel.
-* **Control de Errores:** Patrón `Result<T>` para flujos lógicos erróneos.
+### Example Structure
 
----
+| Entity | Key Fields | Relationships |
+|--------|------------|---------------|
+| Users | Id, Name, Email | → Roles |
+| Roles | Id, Name | → Permissions |
 
-## 3. Modelo de Datos de Base de Datos (3NF Estricta)
-
-> [!important] Esquemas por módulo
-> Cada módulo tiene su propio esquema en la misma base de datos para facilitar el aislamiento.
-
-### Esquema: `{{DB_SCHEMAS[0]}}` (Gobernanza de {{KERNEL_NAME}})
-* **Modulos:** `Id` (PK), `CodigoModulo` (Unique), `Nombre`, `EstaActivo` (Bit)
-* **Usuarios:** `Id` (PK), `Username` (Unique), `PasswordHash`, `NombreCompleto`, `Email`, `EstaActivo`
-* **Roles:** `Id` (PK), `Nombre` (Unique), `EstaActivo`
-* **UsuarioRoles:** `UsuarioId` (FK), `RolId` (FK) — PK compuesta
-* **RolModulos:** `RolId` (FK), `CodigoModulo` (FK) — PK compuesta
-
-{{#each MODULES}}
-### Esquema: `{{DB_SCHEMAS[@index_plus_one]}}` (Módulo {{this}})
-* Entidades principales del módulo en 3NF
-* Configuración Fluent API en `DbContext`
-* `DeleteBehavior.Restrict` en todas las FKs de negocio
-{{/each}}
-
-> [!tip] Diseño de datos
-> Organiza las entidades en esquemas independientes para facilitar el aislamiento. Usa `virtual` para lazy loading en navegaciones.
+> [!tip] Data design
+> Use normalization (3NF) where appropriate. Keep entities focused and minimal.
 
 ---
 
-## 4. Estructura de la Solución
+## 3. Project Structure
 
 ```text
 {{PROJECT_NAME}}/
 ├── src/
-│   ├── BuildingBlocks/
-│   │   └── {{KERNEL_NAME}}/
-│   │       ├── {{PROJECT_NAME}}.{{KERNEL_NAME}}.Core/
-│   │       │   └── Result.cs
-│   │       ├── {{PROJECT_NAME}}.{{KERNEL_NAME}}.Infrastructure/
-│   │       │   ├── {{KERNEL_NAME}}DbContext.cs
-│   │       │   ├── ModuleGatekeeperFilter.cs
-│   │       │   └── AuthService.cs
-│   │       └── {{PROJECT_NAME}}.{{KERNEL_NAME}}.AdminUI/
-│   │           ├── KernelController.cs
-│   │           ├── MenuModulosViewComponent.cs
-│   │           └── Areas/Kernel/Views/
-│   ├── Modules/
-{{#each MODULES}}
-│   │   ├── {{this}}/
-│   │   │   ├── {{PROJECT_NAME}}.{{this}}.Domain/
-│   │   │   │   ├── Entities/
-│   │   │   │   └── Interfaces/
-│   │   │   ├── {{PROJECT_NAME}}.{{this}}.Application/
-│   │   │   │   └── UseCases/
-│   │   │   ├── {{PROJECT_NAME}}.{{this}}.Infrastructure/
-│   │   │   │   ├── {{this}}DbContext.cs
-│   │   │   │   └── Repositories/
-│   │   │   └── {{PROJECT_NAME}}.{{this}}.Presentation/
-│   │   │       ├── Controllers/
-│   │   │       └── Views/
-{{/each}}
-│   └── Web/
-│       └── {{PROJECT_NAME}}.WebHost/
-│           ├── Program.cs
-│           ├── DbInitializer.cs
-│           └── Views/Shared/_Layout.cshtml
-```
-
----
-
-## 5. Estructura de Tests
-
-```text
-{{PROJECT_NAME}}/
+│   ├── {{PROJECT_NAME}}.Core/
+│   │   └── Entities/
+│   ├── {{PROJECT_NAME}}.Infrastructure/
+│   │   ├── DbContext.cs
+│   │   └── Repositories/
+│   ├── {{PROJECT_NAME}}.Application/
+│   │   └── Services/
+│   └── {{PROJECT_NAME}}.Web/
+│       ├── Controllers/
+│       └── Views/
 └── tests/
-    └── BuildingBlocks/
-        └── {{KERNEL_NAME}}/
-            ├── {{PROJECT_NAME}}.{{KERNEL_NAME}}.Core.Tests/
-            │   └── ResultTests.cs
-            ├── {{PROJECT_NAME}}.{{KERNEL_NAME}}.Infrastructure.Tests/
-            │   └── {{KERNEL_NAME}}DbContextTests.cs
-            └── {{PROJECT_NAME}}.{{KERNEL_NAME}}.AdminUI.Tests/
-                └── KernelControllerTests.cs
+    └── {{PROJECT_NAME}}.Tests/
 ```
 
 ---
 
-## 6. Estándar de Interfaz Visual (Look & Feel)
+## 4. UI Standard
 
-> [!note] Estándar UI
-> Toda la interfaz web debe heredar un diseño moderno, minimalista y de alta gama.
+> [!note] Visual standard
+> All web interfaces should have a modern, minimalist design.
 
-* **Engine UI (KISS):** {{UI_FRAMEWORK}} cargado vía CDN oficial en el Layout principal.
-* **Línea Gráfica Corporativa:**
-  * Fondo Base: Blanco puro (`bg-white`) para áreas de trabajo y gris ultra claro (`bg-slate-50`) para fondos.
-  * Color Primario: Indigo Tecnológico (`bg-indigo-600` / `text-indigo-600`).
-  * Paleta de Estados: Verde Esmeralda (`bg-emerald-100 text-emerald-800`), Ámbar (`bg-amber-100 text-amber-800`), Rojo (`bg-rose-100 text-rose-800`).
-* **Componentes UI:**
-  * Layout SaaS Dashboard: Barra lateral izquierda fija (`w-64 bg-slate-900 text-slate-300`).
-  * Tablas: `rounded-xl border border-slate-200 shadow-sm overflow-hidden`.
-  * Formularios: Inputs con `rounded-lg border-slate-300 shadow-sm focus:border-indigo-500`.
-  * Botones: Transiciones suaves, primarios en Indigo sólido.
+* **Engine (KISS):** {{UI_FRAMEWORK}}
+* **Color Palette:**
+  * Primary: Indigo (`bg-indigo-600`)
+  * Success: Emerald (`bg-emerald-100 text-emerald-800`)
+  * Warning: Amber (`bg-amber-100 text-amber-800`)
+  * Error: Rose (`bg-rose-100 text-rose-800`)
 
 ---
 
-## 7. Docker
+## 5. Roles and Permissions
 
-```yaml
-version: '3.8'
+| Role | Access |
+|------|--------|
+| `Admin` | Full access |
+| `User` | Limited access |
 
-services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: {{PROJECT_NAME_LC}}_sqlserver
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=YourSecurePassword123!
-    ports:
-      - "1433:1433"
-    volumes:
-      - {{PROJECT_NAME_LC}}_data:/var/opt/mssql
-
-  webhost:
-    image: {{PROJECT_NAME_LC}}-webhost:latest
-    build:
-      context: .
-      dockerfile: src/Web/{{PROJECT_NAME}}.WebHost/Dockerfile
-    ports:
-      - "8080:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database={{PROJECT_NAME}}Db;User Id=sa;Password=YourSecurePassword123!;TrustServerCertificate=True;
-    depends_on:
-      - sqlserver
-
-volumes:
-  {{PROJECT_NAME_LC}}_data:
+> Customize this section based on your project's needs.
 ```
 
 ---
 
-## 8. Roles y Permisos
-
-| Rol | Módulos a los que accede |
-|-----|--------------------------|
-| `AdminGeneral` | Todos los módulos |
-{{#each MODULES}}
-| `Admin{{this}}` | Solo {{this}}
-{{/each}}
-
-Usuario semilla: `admin@novatech.cl` / `Nexus2026!` con rol `AdminGeneral`.
-```
-
----
-
-#### Archivo 4: `progress.md`
+#### File 4: `progress.md`
 
 ```markdown
-# {{PROJECT_NAME}} - Bitácora de Progreso e Iteración (KISS)
+# {{PROJECT_NAME}} — Progress Log
 
-> **Historial de fases:** Ver [[history]]
-> **Stack tecnológico:** Ver [[stack]]
-> **Reglas de código:** Ver [[agent]]
-> **Mapa del proyecto:** Ver [[Proyecto {{PROJECT_NAME}}]]
-
----
-
-## 1. Estado General del Proyecto
-
-* **Proyecto:** {{PROJECT_NAME}} ({{STACK}} + Arquitectura Hexagonal)
-* **Fase Actual:** Pendiente de inicio
-* **Último hito completado:** Ninguno
+> **History:** Ver [[history]]
+> **Stack:** Ver [[stack]]
+> **Rules:** Ver [[agent]]
+> **Project map:** Ver [[Proyecto {{PROJECT_NAME}}]]
 
 ---
 
-## 2. Checklist de Implementación
+## 1. Project Status
 
-### Fase 0: Infraestructura de Testing
-- [ ] **0.1.** Crear proyecto de tests con {{TEST_FRAMEWORK}}
-- [ ] **0.2.** Tests del patrón `Result`
-- [ ] **0.3.** Tests de infraestructura
-
-### Fase 1: El Exoesqueleto ({{KERNEL_NAME}})
-- [ ] **1.1.** Crear clase `Result<T>`
-- [ ] **1.2.** Crear `{{KERNEL_NAME}}DbContext` (Esquema: `{{DB_SCHEMAS[0]}}`)
-- [ ] **1.3.** Crear `ModuleGatekeeperFilter`
-- [ ] **1.4.** Crear panel administrativo (AdminUI)
-- [ ] **1.5.** Crear menú dinámico (ViewComponent)
-
-{{#each MODULES}}
-### Fase {{@index_plus_two}}: Módulo {{this}}
-- [ ] **{{@index_plus_two}}.1.** Dominio (3NF): Entidades e interfaz de repositorio
-- [ ] **{{@index_plus_two}}.2.** Aplicación: Casos de uso con patrón `Result`
-- [ ] **{{@index_plus_two}}.3.** Infraestructura: `{{this}}DbContext` (Esquema: `{{DB_SCHEMAS[@index_plus_one]}}`) y repositorios
-- [ ] **{{@index_plus_two}}.4.** Presentación: Controlador y vistas Razor
-{{/each}}
-
-### Fase Final: Orquestación ({{PROJECT_NAME}}.WebHost)
-- [ ] **F.1.** Configurar `Program.cs` con inyección de dependencias
-- [ ] **F.2.** Configurar Docker y migraciones automáticas
-- [ ] **F.3.** Pruebas de integración del contenedor
+* **Project:** {{PROJECT_NAME}} ({{STACK}})
+* **Current Phase:** Pending start
+* **Last milestone:** None
 
 ---
 
-## 3. Bitácora de Iteraciones Recientes
+## 2. Implementation Checklist
 
-* Pendiente de primera iteración.
+### Phase 0: Testing Infrastructure
+- [ ] **0.1.** Create test project with {{TEST_FRAMEWORK}}
+- [ ] **0.2.** Unit tests for Result pattern
+- [ ] **0.3.** Integration tests for data access
+
+### Phase 1: Core
+- [ ] **1.1.** Create Result pattern class
+- [ ] **1.2.** Create base entities
+- [ ] **1.3.** Set up project structure
+
+### Phase 2: Data Access
+- [ ] **2.1.** Create database context
+- [ ] **2.2.** Configure entity mappings
+- [ ] **2.3.** Implement repositories
+
+### Phase 3: Business Logic
+- [ ] **3.1.** Create use cases / services
+- [ ] **3.2.** Implement business rules
+- [ ] **3.3.** Add validation
+
+### Phase 4: Presentation
+- [ ] **4.1.** Create controllers/views
+- [ ] **4.2.** Wire up dependency injection
+- [ ] **4.3.** Add routing
+
+### Phase 5: Testing & Deployment
+- [ ] **5.1.** Write unit tests for all layers
+- [ ] **5.2.** Ensure all tests pass
+- [ ] **5.3.** Deploy
 
 ---
 
-## 4. Próximo Paso Inmediato
+## 3. Recent Iterations
 
-> [!tip] Primer paso
-> Inicia con la **Fase 0: Infraestructura de Testing**.
-> Crea el proyecto de tests y validaciones del patrón `Result`.
+* Pending first iteration.
+
+---
+
+## 4. Next Immediate Step
+
+> [!tip] First step
+> Start with **Phase 0: Testing Infrastructure**.
+> Create the test project and validate the Result pattern.
 ```
 
 ---
 
-#### Archivo 5: `history.md`
+#### File 5: `history.md`
 
 ```markdown
-# {{PROJECT_NAME}} — Historial de Fases Completadas
+# {{PROJECT_NAME}} — Completed Phases History
 
-> **Estado actual:** Ver [[progress]]
-> **Stack tecnológico:** Ver [[stack]]
-> **Reglas de código:** Ver [[agent]]
-
----
-
-> [!note] Archivo acumulativo
-> Este archivo registra todas las fases completadas con fecha y hora.
-> Se actualiza automáticamente cuando se completa una fase en [[progress]].
-> El historial detallado de cada sesión queda registrado en las secciones de `agent.md`.
+> **Current status:** Ver [[progress]]
+> **Tech stack:** Ver [[stack]]
+> **Rules:** Ver [[agent]]
 
 ---
 
-*No hay fases completadas aún.*
+> [!note] Accumulative file
+> This file records all completed phases with date and time.
+> It is automatically updated when a phase is completed in [[progress]].
+
+---
+
+*No phases completed yet.*
 ```
 
 ---
 
-### Paso 3: Crear `.opencode.json`
+### Step 3: Create `opencode.json`
 
-Si no existe, crear `opencode.json` en el directorio actual:
+If it doesn't exist, create `opencode.json` in the current directory:
 
 ```json
 {
@@ -523,89 +386,91 @@ Si no existe, crear `opencode.json` en el directorio actual:
 }
 ```
 
-### Paso 4: Preguntar sobre copia global
+### Step 4: Confirm
 
-Preguntar al usuario:
-> ¿Quieres copiar la skill a `~/.config/opencode/skills/` para que esté disponible en todos los proyectos?
+Show summary of generated files:
 
-Si responde sí, copiar `ok-init.md` a `%USERPROFILE%\.config\opencode\skills\ok-init.md`.
-
-### Paso 5: Confirmar
-
-Mostrar resumen de archivos creados:
 ```
 {{PROJECT_NAME}}/
 ├── Proyecto {{PROJECT_NAME}}.md
 ├── agent.md
 ├── stack.md
 ├── progress.md
-├── history.md
-└── opencode.json (opcional)
+└── history.md
 ```
 
-Preguntar si quiere abrir Obsidian para verificar los links.
+Ask if they want to open Obsidian to verify the links.
 
 ---
 
-## Protocolo de Sesión (KISS)
+## Session Protocol (KISS)
 
-Después de generar los archivos, instruye al usuario sobre el ciclo de trabajo:
+After generating files, instruct the user on the workflow:
 
-### Al INICIO de cada sesión:
-1. Leer `progress.md` → fase actual y próximo paso inmediato
-2. Leer `agent.md` → reglas vigentes y decisiones acordadas
-3. Leer `stack.md` → decisiones técnicas definitivas
-4. Usar MCP Context7 si necesitas documentación actualizada
+### At the START of each session:
+1. Read `progress.md` → current phase and next step
+2. Read `agent.md` → rules and decisions
+3. Read `stack.md` → technical decisions
+4. Use MCP Context7 if you need documentation
 
-### Durante la sesión:
-- Generar código **solo para el paso actual** del `progress.md`
-- Si hay ambigüedad, **preguntar al usuario** antes de escribir código
-- Dependencies menores: crear stub con `// TODO: Implementar en el paso correspondiente`
-- Formato de entrega: ruta completa del archivo como encabezado
+### During the session:
+- Generate code **only for the current step** from `progress.md`
+- If ambiguous, **ask the user** before writing code
+- Minor dependencies: create stub with `// TODO: Implement in corresponding step`
+- Delivery format: full file path as header
 
-### Al FINAL de cada sesión (tras aprobación del usuario):
-1. **`progress.md`** → Marcar tarea como completada + establecer próximo paso
-2. **`history.md`** → Mover fase completada con fecha (DD/MM/YYYY HH:MM America/Santiago)
-3. **`stack.md`** → Documentar decisiones técnicas nuevas (mostrar solo líneas a agregar)
-4. **`agent.md`** → Documentar reglas/decisiones nuevas (mostrar solo líneas a agregar)
+### At the END of each session (after user approval):
+1. **`progress.md`** → Mark task as completed + set next step
+2. **`history.md`** → Move completed phase with date (DD/MM/YYYY HH:MM America/Santiago)
+3. **`stack.md`** → Document new technical decisions (show only lines to add)
+4. **`agent.md`** → Document new rules/decisions (show only lines to add)
 
-> [!warning] Regla de oro
-> Los archivos **solo se actualizan DESPUÉS de que el usuario apruebe el trabajo**.
-> Nunca actualices archivos sin aprobación explícita.
+> [!warning] Golden rule
+> Files are **only updated AFTER user approval**.
+> Never update files without explicit approval.
 
 ---
 
-## Notas de Implementación
+## Trigger: "ok sigamos"
 
-### Reemplazos dinámicos
+If the user types "ok sigamos" (or variants like "ok sigamos", "sigamos"):
 
-| Variable | Descripción | Ejemplo |
+1. Verify governance files exist
+2. If they do NOT exist → inform and suggest `ok init`
+3. If they DO exist → skip menu and go directly to **Session Protocol**
+4. Read `progress.md`, `agent.md`, `stack.md`
+5. Show summary of current state
+6. Ask: "What do you want to do now?"
+
+---
+
+## Implementation Notes
+
+### Dynamic Replacements
+
+| Variable | Description | Example |
 |----------|-------------|---------|
-| `{{PROJECT_NAME}}` | Nombre del proyecto | NexusPlatform |
-| `{{PROJECT_NAME_LC}}` | Nombre en minúsculas | nexusplatform |
-| `{{KERNEL_NAME}}` | Nombre del módulo central | NexusCore |
-| `{{MODULES}}` | Lista de módulos | NexusCRM, NexusInventario, NexusRRHH |
-| `{{STACK}}` | Stack tecnológico | .NET 10 + C# 14 |
-| `{{DATABASE}}` | Base de datos | SQL Server 2022 |
-| `{{TEST_FRAMEWORK}}` | Framework de testing | xUnit + Moq |
-| `{{UI_FRAMEWORK}}` | Framework UI | Tailwind CDN |
-| `{{AUTH_STRATEGY}}` | Estrategia de auth | Cookie Authentication con PasswordHasher |
-| `{{DB_SCHEMAS}}` | Esquemas por módulo | nexus_core, nexus_crm, nexus_inv, nexus_rrhh |
+| `{{PROJECT_NAME}}` | Project name | NexusPlatform |
+| `{{STACK}}` | Tech stack | .NET 10 + C# 14 |
+| `{{DATABASE}}` | Database | SQL Server 2022 |
+| `{{TEST_FRAMEWORK}}` | Testing framework | xUnit + Moq |
+| `{{UI_FRAMEWORK}}` | UI framework | Tailwind CDN |
+| `{{AUTH_STRATEGY}}` | Auth strategy | Cookie Authentication |
 
-### Formato de fechas
+### Date Format
 
-Usar formato: `DD/MM/YYYY HH:MM` con zona horaria `America/Santiago`.
+Use format: `DD/MM/YYYY HH:MM` with timezone `America/Santiago`.
 
 ### Obsidian Features
 
-- **Wiki-links:** `[[archivo]]` entre los 5 archivos MD
+- **Wiki-links:** `[[file]]` between the 5 MD files
 - **Callouts:** `> [!note]`, `> [!tip]`, `> [!warning]`, `> [!important]`
-- **Tags:** `#fase/0`, `#fase/1`, `#modulo/{{MODULE_NAME}}`
-- **Graph view:** Se genera automáticamente por los wiki-links
+- **Tags:** `#fase/0`, `#fase/1`
+- **Graph view:** Generated automatically by wiki-links
 
-### Validación
+### Validation
 
-Antes de confirmar la creación:
-1. Verificar que no existen archivos con el mismo nombre (preguntar si sobreescribir)
-2. Validar que las rutas son accesibles
-3. Confirmar que Obsidian puede leer los archivos (formato UTF-8)
+Before confirming creation:
+1. Verify no files with the same name exist (ask if overwriting)
+2. Validate that paths are accessible
+3. Confirm Obsidian can read the files (UTF-8 format)
