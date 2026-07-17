@@ -189,6 +189,55 @@ AI: [generates 5 files]
 
 ---
 
+## Complete Example
+
+### First time (new project)
+
+1. Open opencode in your project folder
+2. Type: `ok init`
+3. Answer 6 questions (or press Enter for defaults)
+4. Files are generated!
+5. Start coding with the AI
+
+### During a session
+
+1. Type: `ok sigamos` (to continue)
+2. Work on the current step
+3. When done: `ok sync` (to audit)
+4. When ready: `ok commit` (to save)
+
+### Flowchart
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      OK_Init Workflow                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
+│  │ ok init  │───▶│ 6 Q's    │───▶│ 5 files  │              │
+│  └──────────┘    └──────────┘    └──────────┘              │
+│       │                              │                      │
+│       ▼                              ▼                      │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
+│  │ok sigamos│───▶│  Read    │───▶│  Work    │              │
+│  └──────────┘    │  state   │    │  on code │              │
+│                  └──────────┘    └──────────┘              │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌──────────┐                   │
+│                              │ ok sync  │                   │
+│                              └──────────┘                   │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌──────────┐                   │
+│                              │ok commit │                   │
+│                              └──────────┘                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Commands
 
 ### `ok init` / `ok sigamos`
@@ -433,6 +482,55 @@ Commitea archivos de governance y código con preguntas interactivas:
 - Pregunta qué commitear
 - Sugiere mensaje automático o permite custom
 - Ejecuta git add + commit
+
+---
+
+## Ejemplo Completo
+
+### Primera vez (proyecto nuevo)
+
+1. Abrir opencode en la carpeta del proyecto
+2. Escribir: `ok init`
+3. Responder 6 preguntas (o Enter para valores por defecto)
+4. ¡Se generan los archivos!
+5. Empezar a codificar con la IA
+
+### Durante una sesión
+
+1. Escribir: `ok sigamos` (para continuar)
+2. Trabajar en el paso actual
+3. Cuando termines: `ok sync` (para auditar)
+4. Cuando estés listo: `ok commit` (para guardar)
+
+### Diagrama de Flujo
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Flujo de Trabajo OK_Init                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
+│  │ ok init  │───▶│ 6 Preg.  │───▶│ 5 archivos│             │
+│  └──────────┘    └──────────┘    └──────────┘              │
+│       │                              │                      │
+│       ▼                              ▼                      │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
+│  │ok sigamos│───▶│  Leer    │───▶│ Trabajar │              │
+│  └──────────┘    │  estado  │    │  código  │              │
+│                  └──────────┘    └──────────┘              │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌──────────┐                   │
+│                              │ ok sync  │                   │
+│                              └──────────┘                   │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌──────────┐                   │
+│                              │ok commit │                   │
+│                              └──────────┘                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
