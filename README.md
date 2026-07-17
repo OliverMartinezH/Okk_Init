@@ -4,7 +4,7 @@ Skill para [opencode](https://opencode.ai) que genera un sistema de gobernanza c
 
 ## Qué genera
 
-La skill crea **6 archivos** al iniciar un nuevo proyecto:
+La skill crea **5 archivos** al iniciar un nuevo proyecto:
 
 | Archivo | Propósito |
 |---------|-----------|
@@ -13,13 +13,14 @@ La skill crea **6 archivos** al iniciar un nuevo proyecto:
 | `stack.md` | Stack técnico + modelo de datos + estándar UI |
 | `progress.md` | Estado actual + próximo paso |
 | `history.md` | Memoria acumulativa de fases completadas |
-| `prompt.txt` | Protocolo de sesión para cada iteración |
 
 ## Características
 
 - **Obsidian-ready:** Todos los archivos MD se enlazan entre sí con `[[wiki-links]]`
 - **Callouts:** Incluye `> [!note]`, `> [!tip]`, `> [!warning]`, `> [!important]`
 - **Graph view:** Obsidian genera automáticamente el grafo de relaciones
+- **Mock data realista:** Ejemplo con NexusPlatform, NexusCore, NexusCRM, etc.
+- **Protocolo KISS:** Incluye instrucciones de sesión (inicio → código → aprobación → actualización)
 - **9 preguntas personalizables:** Proyecto, Kernel, módulos, stack, DB, testing, UI, auth, esquemas
 
 ## Instalación
@@ -55,53 +56,70 @@ crear gobernanza
 ok init
 ```
 
-La IA te preguntará 9 datos y generará los 6 archivos personalizados.
+La IA te preguntará 9 datos y generará los 5 archivos personalizados.
 
 ## Ejemplo de salida
 
 ### Graph view en Obsidian
 
 ```
-┌─────────────┐
-│  Proyecto   │
-│   OKSoft    │
-└──────┬──────┘
-       │
-       ▼
-┌──────────────┐     ┌──────────────┐
-│   stack      │◄────│   agent      │
-│  (técnico)   │     │  (reglas)    │
-└──────┬───────┘     └──────┬───────┘
-       │                    │
-       ▼                    ▼
-┌──────────────┐     ┌──────────────┐
-│  progress    │◄────│   history    │
-│  (estado)    │     │  (memoria)   │
-└──────────────┘     └──────────────┘
+┌──────────────────┐
+│  Proyecto        │
+│  NexusPlatform   │
+└────────┬─────────┘
+         │
+    ┌────┴────┐
+    ▼         ▼
+┌────────┐ ┌────────┐
+│ stack  │ │ agent  │
+│ (tech) │ │ (rules)│
+└───┬────┘ └───┬────┘
+    │          │
+    ▼          ▼
+┌────────┐ ┌────────┐
+│progress│ │ history│
+│ (state)│ │ (mem)  │
+└────────┘ └────────┘
 ```
 
-### Preguntas que hace
+### Mock Data (ejemplo)
 
-1. Nombre del proyecto → `OKSoft`
-2. Nombre del Kernel → `OKKernel`
-3. Módulos de negocio → `OKPersonal, OKInventario`
+1. Nombre del proyecto → `NexusPlatform`
+2. Nombre del Kernel → `NexusCore`
+3. Módulos de negocio → `NexusCRM, NexusInventario, NexusRRHH`
 4. Stack tecnológico → `.NET 10 + C# 14`
 5. Base de datos → `SQL Server 2022`
 6. Framework testing → `xUnit + Moq`
 7. Framework UI → `Tailwind CDN`
-8. Estrategia auth → `Cookie Authentication`
-9. Esquemas DB → `oliver=oliver, OKPersonal=personal, OKInventario=inventario`
+8. Estrategia auth → `Cookie Authentication con PasswordHasher`
+9. Esquemas DB → `nexus_core, nexus_crm, nexus_inv, nexus_rrhh`
+
+## Protocolo de Sesión
+
+La skill incluye un protocolo de trabajo KISS:
+
+### Al INICIO:
+- Leer `progress.md` → fase actual
+- Leer `agent.md` → reglas vigentes
+- Leer `stack.md` → decisiones técnicas
+
+### Al FINAL (tras aprobación):
+1. `progress.md` → marcar completado + próximo paso
+2. `history.md` → mover fase con fecha
+3. `stack.md` → documentar decisiones nuevas
+4. `agent.md` → documentar reglas nuevas
+
+> **Regla de oro:** Los archivos solo se actualizan DESPUÉS de aprobación del usuario.
 
 ## Estructura de archivos generados
 
 ```
 tu-proyecto/
-├── Proyecto OKSoft.md
+├── Proyecto NexusPlatform.md
 ├── agent.md
 ├── stack.md
 ├── progress.md
 ├── history.md
-├── prompt.txt
 └── opencode.json (si no existía)
 ```
 
