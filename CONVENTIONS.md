@@ -1,4 +1,4 @@
-# OK_Init Governance Conventions
+# okk_init Governance Conventions
 
 ## Session Start
 Read these files for context:
@@ -14,8 +14,8 @@ Read these files for context:
 - Update files ONLY after user approval
 
 ## Workflow Commands
-- `ok init` → Initialize governance files
-- `ok sigamos` → Continue from where we left off
-- `ok sync` → Audit MD files vs actual code
-- `ok status` → Show project status dashboard
-- `ok commit` → Commit governance + code with questions
+- `okk init` → Initialize governance files
+- `okk sigamos` → Continue from where we left off
+- `okk sync` → Audit MD files vs actual code
+- `okk status` → Show project status dashboard
+- `okk commit` → Commit governance + code with questions

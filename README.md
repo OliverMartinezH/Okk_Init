@@ -1,58 +1,20 @@
-# OK_Init — Project Governance Skill
+# okk_init — Project Governance Skill
 
-> **Multi-platform governance skill** — Generate a complete governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
+> **File-based "long-term memory" for AI agents.** Zero dependencies, works with any agent that can read files.
 
 [![Obsidian](https://img.shields.io/badge/Obsidian-ready-7C3AED?style=flat-square&logo=obsidian)](https://obsidian.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+[![OpenCode](https://img.shields.io/badge/OpenCode-000000?style=flat-square)](https://opencode.ai)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-D97757?style=flat-square&logo=claudecode&logoColor=white)](https://claude.com)
-[![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=flat-square&logo=google&logoColor=white)](https://antigravity.google)
 [![Cursor](https://img.shields.io/badge/Cursor-000000?style=flat-square&logo=cursor&logoColor=white)](https://cursor.com)
 [![Windsurf](https://img.shields.io/badge/Windsurf-00A6FF?style=flat-square&logo=windsurf&logoColor=white)](https://windsurf.com)
 [![Cline](https://img.shields.io/badge/Cline-E8593C?style=flat-square&logo=cline&logoColor=white)](https://cline.bot)
-[![Aider](https://img.shields.io/badge/Aider-6B4FBB?style=flat-square)](https://aider.chat)
 
 ---
 
-## What is OK_Init?
+## What is okk_init?
 
-> **OK_Init is a file-based "long-term memory" for AI agents.**
-> It saves you time and money (tokens).
->
-> AI agents forget your project context quickly — leading to mistakes, repeated explanations, or starting from scratch. OK_Init creates 5 interconnected text files that summarize your project perfectly. Each time you start a session, the agent reads these files: it understands everything instantly, uses the minimum data possible, and guides you step by step to finish tasks without going in circles.
-
-### How OK_Init Compares
-
-OK_Init solves the same problem as [LangChain](https://langchain.com) — giving AI agents persistent memory — but using **files instead of code**.
-
-| | LangChain | OK_Init |
-|--|-----------|---------|
-| **Nature** | Python framework | File-based system |
-| **Dependencies** | `pip install langchain` | None |
-| **Memory** | `MemoryMiddleware` | 5 governance MD files |
-| **Session management** | `thread_id` + checkpointer | `progress.md` + `history.md` |
-| **Context engineering** | Middleware pipeline | `ok init` / `ok sigamos` |
-| **Human-in-the-loop** | HITL middleware | "Update only after user approval" |
-| **Target audience** | Developers building products | Users of free AI tools |
-| **Deployment** | Server/cloud | Local, in-agent session |
-
-> [!tip] Key insight
-> LangChain is LangChain **in code** — OK_Init is LangChain **in markdown**. Zero dependencies, works with any agent that can read files.
-
-### The 3 Pillars of Savings
-
-| Pillar | Analogy | What it does |
-|--------|---------|--------------|
-| 💾 **External memory for AI** | Like giving it a memory card with the exact summary | Instead of explaining your project in every message, just pass `agent.md` or `progress.md` |
-| 🎯 **Zero runaround (fewer messages)** | Solve in 2 messages instead of 10 | `ok sigamos` tells you the exact next step, avoiding daily free-tier message limits |
-| 🔍 **Garbage filter** | Skip what's already done | `ok sync` detects what's built and what's not — no wasted tokens reviewing ready code |
-
-#### How it works
-
-OK_Init generates **5 governance files** that act as a knowledge base for your project. These files are:
-
-- **Obsidian-ready** with `[[wiki-links]]` between them
-- **Self-updating** as your project evolves
-- **Tech-agnostic** — works with .NET, Node.js, Python, or anything
+AI agents forget your project context quickly — leading to mistakes, repeated explanations, or starting from scratch. **okk_init** creates 5 interconnected markdown files that summarize your project perfectly. Each time you start a session, the agent reads these files: it understands everything instantly, uses the minimum data possible, and guides you step by step to finish tasks without going in circles.
 
 ### The 5 Files
 
@@ -64,78 +26,77 @@ OK_Init generates **5 governance files** that act as a knowledge base for your p
 | `progress.md` | Current state + next step | `[[history]]` `[[stack]]` |
 | `history.md` | Accumulated memory of completed phases | `[[progress]]` |
 
----
-
-## The 5 Commands
+### The 5 Commands
 
 | Command | What it does |
 |---------|--------------|
-| `ok init` | **The starter:** Asks basic questions and sets up the entire structure in seconds |
-| `ok sigamos` | **The reminder:** "Where did we leave off?" — reads files and tells you the next step |
-| `ok sync` | **The auditor:** Compares real work against the plan and flags incomplete items |
-| `ok status` | **The dashboard:** Shows a visual progress bar of where the project stands |
-| `ok commit` | **The safe keeper:** Asks quick questions and archives both code and governance notes |
+| `okk init` | **The starter:** Asks basic questions and sets up the entire structure in seconds |
+| `okk sigamos` | **The reminder:** "Where did we leave off?" — reads files and tells you the next step |
+| `okk sync` | **The auditor:** Compares real work against the plan and flags incomplete items |
+| `okk status` | **The dashboard:** Shows a visual progress bar of where the project stands |
+| `okk commit` | **The safe keeper:** Asks quick questions and archives both code and governance notes |
 
 ---
 
-## Agentes Compatibles
+## Skills by Platform
 
-OK_Init es compatible de forma nativa con los principales agentes CLI del ecosistema. Al instalar el skill, el agente solo consumirá tokens cuando invoques los comandos, manteniendo tu contexto limpio.
+All skills are organized in the `skills/` directory:
 
-| Plataforma | Tipo | Instalación |
-|------------|------|-------------|
-| **OpenCode** | Skill (SKILL.md) | `cp ok-init.md ~/.config/opencode/skills/` |
-| **Claude Code** | Skill (SKILL.md) | `mkdir -p .claude/skills/ok-init && cp SKILL.md .claude/skills/ok-init/` |
-| **Antigravity** | Skill (SKILL.md) | `mkdir -p .agent/skills/ok-init && cp SKILL.md .agent/skills/ok-init/` |
-| **Cursor** | Rules (.cursorrules) | `cp .cursorrules .cursorrules` |
-| **Windsurf** | Rules (.windsurfrules) | `cp .windsurfrules .windsurfrules` |
-| **Cline** | Rules (.clinerules/) | `mkdir -p .clinerules && cp .clinerules/governance.md .clinerules/` |
-| **Aider** | Conventions (CONVENTIONS.md) | `cp CONVENTIONS.md .` |
+| Platform | Skill Location | Installation |
+|----------|----------------|--------------|
+| **OpenCode** | `skills/opencode/okk-init/SKILL.md` | Copy to `~/.config/opencode/skills/okk-init/` |
+| **Claude Code** | `skills/claude-code/` | Copy `CLAUDE.md` + `okk-init/` to `.claude/skills/` |
+| **Cursor** | `skills/cursor/.cursorrules` | Copy to project root |
+| **Windsurf** | `skills/windsurf/.windsurfrules` | Copy to project root |
+| **Cline** | `skills/cline/governance.md` | Copy to `.clinerules/` |
 
-### Instalación por Plataforma
+### Installation by Platform
 
-#### 1. OpenCode
+#### OpenCode
+
 ```bash
-cp ok-init.md ~/.config/opencode/skills/
+# Global (all projects)
+mkdir -p ~/.config/opencode/skills/okk-init
+cp skills/opencode/okk-init/SKILL.md ~/.config/opencode/skills/okk-init/
+
+# Local (single project)
+mkdir -p .opencode/skills/okk-init
+cp skills/opencode/okk-init/SKILL.md .opencode/skills/okk-init/
 ```
 
-#### 2. Claude Code
+#### Claude Code
+
 ```bash
-mkdir -p .claude/skills/ok-init
-cp SKILL.md .claude/skills/ok-init/
+# Copy CLAUDE.md to project root
+cp skills/claude-code/CLAUDE.md .
+
+# Copy skill directory
+mkdir -p .claude/skills/okk-init
+cp skills/claude-code/okk-init/SKILL.md .claude/skills/okk-init/
 ```
 
-#### 3. Google Antigravity
-```bash
-mkdir -p .agent/skills/ok-init
-cp SKILL.md .agent/skills/ok-init/
-```
+#### Cursor / Windsurf
 
-#### 4. Cursor / Windsurf
 ```bash
 # Cursor
-cp .cursorrules .cursorrules
+cp skills/cursor/.cursorrules .
 
 # Windsurf
-cp .windsurfrules .windsurfrules
+cp skills/windsurf/.windsurfrules .
 ```
 
-#### 5. Cline
+#### Cline
+
 ```bash
 mkdir -p .clinerules
-cp .clinerules/governance.md .clinerules/
-```
-
-#### 6. Aider
-```bash
-cp CONVENTIONS.md .
+cp skills/cline/governance.md .clinerules/
 ```
 
 ---
 
 ## The 6 Questions
 
-When you run `ok init` for the first time, OK_Init asks 6 questions to configure your project. Press **Enter** to accept the default.
+When you run `okk init` for the first time, okk_init asks 6 questions to configure your project. Press **Enter** to accept the default.
 
 | # | Question | Default | Why it matters |
 |---|----------|---------|----------------|
@@ -151,11 +112,94 @@ When you run `ok init` for the first time, OK_Init asks 6 questions to configure
 
 ---
 
+## Quick Start
+
+### 1. Install the skill for your platform (see above)
+
+### 2. Initialize your project
+
+```
+okk init
+```
+
+### 3. Answer 6 questions (or press Enter for defaults)
+
+### 4. Start coding!
+
+### 5. Continue a session
+
+```
+okk sigamos
+```
+
+### 6. Audit your progress
+
+```
+okk sync
+```
+
+### 7. Commit your work
+
+```
+okk commit
+```
+
+---
+
+## Complete Example
+
+### First time (new project)
+
+1. Open your AI agent in the project folder
+2. Type: `okk init`
+3. Answer 6 questions (or press Enter for defaults)
+4. Files are generated!
+5. Start coding with the AI
+
+### During a session
+
+1. Type: `okk sigamos` (to continue)
+2. Work on the current step
+3. When done: `okk sync` (to audit)
+4. When ready: `okk commit` (to save)
+
+### Flowchart
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    okk_init Workflow                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
+│  │ okk init  │───▶│ 6 Q's    │───▶│ 5 files  │             │
+│  └───────────┘    └──────────┘    └──────────┘             │
+│       │                              │                      │
+│       ▼                              ▼                      │
+│  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
+│  │okk sigamos│───▶│  Read    │───▶│  Work    │             │
+│  └───────────┘    │  state   │    │  on code │             │
+│                  └──────────┘    └──────────┘             │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌───────────┐                  │
+│                              │ okk sync  │                  │
+│                              └───────────┘                  │
+│                                     │                       │
+│                                     ▼                       │
+│                              ┌───────────┐                  │
+│                              │ okk commit│                  │
+│                              └───────────┘                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Obsidian Integration
 
-### How It Works
+### Wiki-links
 
-Each file starts with wiki-links to the other files:
+Each file starts with links to the other files:
 
 ```markdown
 # Agent Instructions: MyProject
@@ -166,7 +210,7 @@ Each file starts with wiki-links to the other files:
 > **History:** Ver [[history]]
 ```
 
-### Graph View in Obsidian
+### Graph View
 
 This creates an interactive graph in Obsidian:
 
@@ -190,11 +234,7 @@ This creates an interactive graph in Obsidian:
 └────────┘ └────────┘
 ```
 
-Click any `[[link]]` to navigate between files. Obsidian automatically shows the relationship graph.
-
 ### Callouts
-
-The generated files use Obsidian callouts for visual emphasis:
 
 | Callout | Usage |
 |---------|-------|
@@ -202,246 +242,6 @@ The generated files use Obsidian callouts for visual emphasis:
 | `> [!tip]` | Helpful tips and recommendations |
 | `> [!warning]` | Important rules and constraints |
 | `> [!important]` | Critical architectural decisions |
-
-Example:
-
-```markdown
-> [!tip] First step
-> Start with Phase 0: Testing Infrastructure.
-> Create the test project and validate the Result pattern.
-```
-
-### Tags
-
-Files include tags for filtering in Obsidian:
-
-- `#fase/0`, `#fase/1`, `#fase/2` — Phase tags
-- `#modulo/NOMBRE` — Module tags (if applicable)
-
----
-
-## Quick Start
-
-### Installation
-
-**Global (all projects):**
-
-```bash
-# Copy skill directory to global skills directory
-mkdir -p ~/.config/opencode/skills/ok-init
-cp .opencode/skills/ok-init/SKILL.md ~/.config/opencode/skills/ok-init/
-```
-
-**Local (single project):**
-
-```bash
-# Copy skill directory to your project's .opencode directory
-mkdir -p .opencode/skills/ok-init
-cp .opencode/skills/ok-init/SKILL.md .opencode/skills/ok-init/
-```
-
-> [!important] Correct structure
-> Skills MUST follow the `.opencode/skills/<name>/SKILL.md` format with proper frontmatter. The `name` field in frontmatter must match the folder name.
-
-### Usage
-
-Type any of these triggers in opencode:
-
-| Command | Action |
-|---------|--------|
-| `ok init` | Detect files → continue or generate |
-| `ok sigamos` | Same as `ok init` |
-| `ok sync` | Audit MD vs actual code |
-| `ok status` | Show project status dashboard |
-| `ok commit` | Commit governance + code (with questions) |
-
-### Smart Detection
-
-The skill automatically detects if governance files already exist:
-
-```
-ok init
-    │
-    ├── Files exist?
-    │   ├── YES → Read state → Continue working
-    │   └── NO → New project?
-    │       ├── Ask all → 6 questions → Generate
-    │       └── Use context → Summarize chat → Generate
-    │
-    └── Session Protocol
-```
-
-### Continue an Existing Project
-
-If you open a new window in a project that already has governance files:
-
-```
-USUARIO: ok sigamos
-
-AI: [reads progress.md, agent.md, stack.md]
-AI: We're in Phase 2.1 - Creating domain entities.
-    Next step: Create Client entity with RUT, Name, Email.
-    Shall I proceed?
-```
-
-No menus. No questions. Just continue.
-
-### "Use Context" Mode
-
-If you've been chatting about your project and then invoke the skill:
-
-> [!warning] Privacy notice
-> This mode reads the current conversation to extract project decisions only. Avoid sharing sensitive data (API keys, passwords, personal info) in the chat before using this mode.
-
-```
-You: [chatting about your project...]
-You: ok init
-
-AI: No governance files found.
-    Want me to generate them based on our conversation?
-
-You: yes
-
-AI: Here's what I captured:
-    - Project: NexusPlatform
-    - Stack: .NET 10
-    - Database: SQL Server 2022
-    - Testing: xUnit
-    - UI: Tailwind CDN
-    - Auth: Cookie
-
-    Is this correct?
-
-You: yes
-
-AI: [generates 5 files]
-```
-
----
-
-## Complete Example
-
-### First time (new project)
-
-1. Open opencode in your project folder
-2. Type: `ok init`
-3. Answer 6 questions (or press Enter for defaults)
-4. Files are generated!
-5. Start coding with the AI
-
-### During a session
-
-1. Type: `ok sigamos` (to continue)
-2. Work on the current step
-3. When done: `ok sync` (to audit)
-4. When ready: `ok commit` (to save)
-
-### Flowchart
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      OK_Init Workflow                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
-│  │ ok init  │───▶│ 6 Q's    │───▶│ 5 files  │              │
-│  └──────────┘    └──────────┘    └──────────┘              │
-│       │                              │                      │
-│       ▼                              ▼                      │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
-│  │ok sigamos│───▶│  Read    │───▶│  Work    │              │
-│  └──────────┘    │  state   │    │  on code │              │
-│                  └──────────┘    └──────────┘              │
-│                                     │                       │
-│                                     ▼                       │
-│                              ┌──────────┐                   │
-│                              │ ok sync  │                   │
-│                              └──────────┘                   │
-│                                     │                       │
-│                                     ▼                       │
-│                              ┌──────────┐                   │
-│                              │ok commit │                   │
-│                              └──────────┘                   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## Commands
-
-### `ok init` / `ok sigamos`
-
-Detect if governance files exist and either continue or generate new ones.
-
-```
-ok init
-    │
-    ├── Files exist?
-    │   ├── YES → Read state → Continue working
-    │   └── NO → New project?
-    │       ├── Ask all → 6 questions → Generate
-    │       └── Use context → Summarize chat → Generate
-    │
-    └── Session Protocol
-```
-
-### `ok sync`
-
-Audit governance files against actual code. **Never deletes entries** — marks them as "Not built" instead.
-
-```
-📊 Sync Report - NexusPlatform
-
-✅ Synced (12):
-- Phase 1: Core (complete)
-- Entity: Client
-
-➕ New in code (3):
-- src/Services/PaymentService.cs
-
-⏸️ Pending - Not built (2):
-- progress.md: "3.2 Add validation" → code doesn't exist
-```
-
-### `ok status`
-
-Show a visual dashboard of the project status.
-
-```
-📊 NexusPlatform - Estado del Arte
-
-Progreso: ████████░░░░░░░░░░░░ 40% (10/25)
-Fase actual: 2 - Business Logic
-Última sesión: 16/07/2026 - Phase 1 completed
-Próximo paso: 2.1 Create domain entities
-```
-
-### `ok commit`
-
-Commit governance files and code with interactive questions.
-
-```
-📝 Governance (2 archivos):
-- progress.md (modificado)
-- agent.md (modificado)
-
-💻 Código (3 archivos):
-- src/Services/PaymentService.cs (nuevo)
-- src/Controllers/WebhookController.cs (modificado)
-- tests/PaymentTests.cs (nuevo)
-
-¿Qué quieres commitear?
-1. Governance
-2. Código
-3. Ambos
-4. No
-```
-
-**Auto-suggested messages:**
-- Governance only → `docs: update governance files`
-- Code only → `feat: [based on files]`
-- Both → `feat: [code summary] + docs: governance update`
 
 ---
 
@@ -470,75 +270,42 @@ Commit governance files and code with interactive questions.
 
 ---
 
-## File Structure
+## Repository Structure
 
 ```
-your-project/
-├── .opencode/
-│   └── skills/
-│       └── ok-init/
-│           └── SKILL.md
-├── Proyecto [YOUR_PROJECT].md
-├── agent.md
-├── stack.md
-├── progress.md
-└── history.md
-```
-
----
-
-## Example Output
-
-### `agent.md` (excerpt)
-
-```markdown
-# Agent Instructions: NexusPlatform
-
-> **Map:** Ver [[Proyecto NexusPlatform]]
-> **Stack:** Ver [[stack]]
-> **Status:** Ver [[progress]]
-
----
-
-## 1. Development Philosophy
-
-* **KISS:** Extreme simplicity
-* **Result Pattern:** No exceptions for business validations
-* **Auth:** Cookie + PasswordHasher
-
----
-
-## 2. Decision History
-
-> [!note] Session history
-> This space fills automatically during development.
-
-* Pending first session.
-```
-
-### `stack.md` (excerpt)
-
-```markdown
-# Tech Stack: NexusPlatform
-
-> **Map:** Ver [[Proyecto NexusPlatform]]
-> **Rules:** Ver [[agent]]
-
----
-
-## 1. Technologies
-
-* **Runtime:** .NET 10 + C# 14
-* **Database:** SQL Server 2022
-* **UI:** Tailwind CDN
-* **Testing:** xUnit + Moq
+okk_init/
+├── README.md                      # This file
+├── CONVENTIONS.md                 # Aider conventions
+├── REFERENCE.md                   # Complete reference
+├── LICENSE                        # MIT
+├── .gitignore
+│
+├── skills/                        # All skills organized
+│   ├── opencode/
+│   │   └── okk-init/
+│   │       └── SKILL.md
+│   ├── claude-code/
+│   │   ├── okk-init/
+│   │   │   └── SKILL.md
+│   │   └── CLAUDE.md
+│   ├── cursor/
+│   │   └── .cursorrules
+│   ├── windsurf/
+│   │   └── .windsurfrules
+│   └── cline/
+│       └── governance.md
+│
+└── .opencode/                     # For local development
+    └── skills/
+        └── okk-init/
+            └── SKILL.md
 ```
 
 ---
 
 ## Requirements
 
-- One of: [opencode](https://opencode.ai), [Claude Code](https://claude.com), [Antigravity](https://antigravity.google), [Cursor](https://cursor.com), [Windsurf](https://windsurf.com), [Cline](https://cline.bot), or [Aider](https://aider.chat)
+- One of: [OpenCode](https://opencode.ai), [Claude Code](https://claude.com), [Cursor](https://cursor.com), [Windsurf](https://windsurf.com), or [Cline](https://cline.bot)
 - Obsidian (optional, for graph views)
 
 ---
@@ -549,15 +316,11 @@ MIT
 
 ---
 
-# Spanish
+# Español
 
-## Qué es OK_Init?
+## Qué es okk_init?
 
-OK_Init genera **5 archivos de gobernanza** que actúan como base de conocimiento para tu proyecto. Estos archivos son:
-
-- **Listos para Obsidian** con `[[wiki-links]]` entre ellos
-- **Auto-actualizables** a medida que evoluciona tu proyecto
-- **Independientes del stack** — funciona con .NET, Node.js, Python, o cualquier tecnología
+Los agentes de IA olvidan el contexto de tu proyecto rápidamente — causando errores, explicaciones repetidas o empezando desde cero. **okk_init** crea 5 archivos markdown interconectados que resumen tu proyecto perfectamente. Cada vez que inicias una sesión, el agente lee estos archivos: entiende todo al instante, usa la mínima cantidad de datos y te guía paso a paso para terminar tareas sin dar vueltas.
 
 ### Los 5 Archivos
 
@@ -569,56 +332,77 @@ OK_Init genera **5 archivos de gobernanza** que actúan como base de conocimient
 | `progress.md` | Estado actual + próximo paso | `[[history]]` `[[stack]]` |
 | `history.md` | Memoria acumulativa de fases completadas | `[[progress]]` |
 
----
-
-## ¿Por qué OK_Init?
-
-> **OK_Init es un sistema de archivos inteligentes que le da "memoria a largo plazo" a los agentes de IA.**
-> Su objetivo es ahorrarte tiempo y dinero (tokens).
->
-> Los agentes de IA olvidan el contexto rápidamente y empiezan a cometer errores o te obligan a reescribir todo desde el principio. OK_Init crea 5 notas de texto interconectadas que resumen perfectamente tu proyecto. Cada vez que inicias una sesión, el agente lee estos archivos: entiende todo al instante, consume el mínimo de datos posible y te guía paso a paso para terminar tareas sin dar vueltas en círculo.
-
-### Cómo se compara OK_Init
-
-OK_Init resuelve el mismo problema que [LangChain](https://langchain.com) — dar memoria persistente a los agentes de IA — pero usando **archivos en lugar de código**.
-
-| | LangChain | OK_Init |
-|--|-----------|---------|
-| **Naturaleza** | Framework Python | Sistema de archivos |
-| **Dependencias** | `pip install langchain` | Ninguna |
-| **Memoria** | `MemoryMiddleware` | 5 archivos MD de gobernanza |
-| **Gestión de sesiones** | `thread_id` + checkpointer | `progress.md` + `history.md` |
-| **Ingeniería de contexto** | Pipeline de middleware | `ok init` / `ok sigamos` |
-| **Humano en el loop** | Middleware HITL | "Actualizar solo después de aprobación" |
-| **Público objetivo** | Desarrolladores construyendo productos | Usuarios de herramientas de IA gratuitas |
-| **Despliegue** | Servidor/nube | Local, en la sesión del agente |
-
-> [!tip] Idea clave
-> LangChain es LangChain **en código** — OK_Init es LangChain **en markdown**. Cero dependencias, funciona con cualquier agente que pueda leer archivos.
-
-### Los 3 Pilares del Ahorro
-
-| Pilar | Analogía | Qué hace |
-|-------|----------|----------|
-| 💾 **Memoria externa para la IA** | Como darle una tarjeta de memoria con el resumen exacto | En lugar de gastar espacio explicándole tu proyecto en cada mensaje, solo le pasas `agent.md` o `progress.md` |
-| 🎯 **Cero rodeos (menos mensajes)** | Resuelves en 2 mensajes en lugar de 10 | `ok sigamos` te dice el siguiente paso exacto, evitando que se agote tu límite diario de la versión gratuita |
-| 🔍 **Filtro de basura** | No gastas tokens revisando código que ya estaba listo | `ok sync` detecta qué se programó y qué no, para no analizar archivos irrelevantes |
-
 ### Los 5 Comandos
 
 | Comando | Qué hace |
 |---------|----------|
-| `ok init` | **El arranque:** Hace unas preguntas básicas y monta toda la estructura en un segundo |
-| `ok sigamos` | **El recordatorio:** "¿En qué nos quedamos?" — Lee los archivos y te recuerda el siguiente paso |
-| `ok sync` | **La auditoría:** Revisa el trabajo real y lo compara con el plan para avisar si algo quedó a medias |
-| `ok status` | **El tablero:** Te muestra una barra de progreso visual de cómo va el proyecto hoy |
-| `ok commit` | **El archivador seguro:** Te hace preguntas rápidas y archiva tanto los avances como las notas de control |
+| `okk init` | **El arranque:** Hace unas preguntas básicas y monta toda la estructura en un segundo |
+| `okk sigamos` | **El recordatorio:** "¿En qué nos quedamos?" — Lee los archivos y te recuerda el siguiente paso |
+| `okk sync` | **La auditoría:** Revisa el trabajo real y lo compara con el plan para avisar si algo quedó a medias |
+| `okk status` | **El tablero:** Te muestra una barra de progreso visual de cómo va el proyecto hoy |
+| `okk commit` | **El archivador seguro:** Te hace preguntas rápidas y archiva tanto los avances como las notas de control |
+
+---
+
+## Skills por Plataforma
+
+Todas las skills están organizadas en el directorio `skills/`:
+
+| Plataforma | Ubicación | Instalación |
+|------------|-----------|-------------|
+| **OpenCode** | `skills/opencode/okk-init/SKILL.md` | Copiar a `~/.config/opencode/skills/okk-init/` |
+| **Claude Code** | `skills/claude-code/` | Copiar `CLAUDE.md` + `okk-init/` a `.claude/skills/` |
+| **Cursor** | `skills/cursor/.cursorrules` | Copiar a la raíz del proyecto |
+| **Windsurf** | `skills/windsurf/.windsurfrules` | Copiar a la raíz del proyecto |
+| **Cline** | `skills/cline/governance.md` | Copiar a `.clinerules/` |
+
+### Instalación por Plataforma
+
+#### OpenCode
+
+```bash
+# Global (todos los proyectos)
+mkdir -p ~/.config/opencode/skills/okk-init
+cp skills/opencode/okk-init/SKILL.md ~/.config/opencode/skills/okk-init/
+
+# Local (un solo proyecto)
+mkdir -p .opencode/skills/okk-init
+cp skills/opencode/okk-init/SKILL.md .opencode/skills/okk-init/
+```
+
+#### Claude Code
+
+```bash
+# Copiar CLAUDE.md a la raíz del proyecto
+cp skills/claude-code/CLAUDE.md .
+
+# Copiar directorio del skill
+mkdir -p .claude/skills/okk-init
+cp skills/claude-code/okk-init/SKILL.md .claude/skills/okk-init/
+```
+
+#### Cursor / Windsurf
+
+```bash
+# Cursor
+cp skills/cursor/.cursorrules .
+
+# Windsurf
+cp skills/windsurf/.windsurfrules .
+```
+
+#### Cline
+
+```bash
+mkdir -p .clinerules
+cp skills/cline/governance.md .clinerules/
+```
 
 ---
 
 ## Las 6 Preguntas
 
-Cuando ejecutas `ok init` por primera vez, OK_Init hace 6 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
+Cuando ejecutas `okk init` por primera vez, okk_init hace 6 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
 
 | # | Pregunta | Por defecto | Por qué importa |
 |---|----------|-------------|------------------|
@@ -634,35 +418,37 @@ Cuando ejecutas `ok init` por primera vez, OK_Init hace 6 preguntas para configu
 
 ---
 
-## Triggers
+## Inicio Rápido
 
-| Trigger | Acción |
-|---------|--------|
-| `ok init` | Detectar archivos → continuar o generar |
-| `ok sigamos` | Igual que `ok init` |
-| `ok sync` | Auditar MD vs código real |
-| `ok status` | Mostrar dashboard del estado del arte |
-| `ok commit` | Commitear governance + código (con preguntas) |
+### 1. Instala la skill para tu plataforma (ver arriba)
 
-### `ok sync` (Auditoría)
+### 2. Inicializa tu proyecto
 
-Compara los MD con el código real. **Nunca borra entradas** — las marca como "No construido".
+```
+okk init
+```
 
-### `ok status` (Dashboard)
+### 3. Responde 6 preguntas (o Enter para valores por defecto)
 
-Muestra un resumen visual del estado del proyecto:
-- Barra de progreso
-- Fase actual
-- Última sesión
-- Próximo paso
+### 4. ¡Empieza a codificar!
 
-### `ok commit` (Commit interactivo)
+### 5. Continúa una sesión
 
-Commitea archivos de governance y código con preguntas interactivas:
-- Clasifica archivos (governance vs código)
-- Pregunta qué commitear
-- Sugiere mensaje automático o permite custom
-- Ejecuta git add + commit
+```
+okk sigamos
+```
+
+### 6. Audita tu progreso
+
+```
+okk sync
+```
+
+### 7. Guarda tu trabajo
+
+```
+okk commit
+```
 
 ---
 
@@ -670,69 +456,91 @@ Commitea archivos de governance y código con preguntas interactivas:
 
 ### Primera vez (proyecto nuevo)
 
-1. Abrir opencode en la carpeta del proyecto
-2. Escribir: `ok init`
-3. Responder 6 preguntas (o Enter para valores por defecto)
+1. Abre tu agente de IA en la carpeta del proyecto
+2. Escribe: `okk init`
+3. Responde 6 preguntas (o Enter para valores por defecto)
 4. ¡Se generan los archivos!
-5. Empezar a codificar con la IA
+5. Empieza a codificar con la IA
 
 ### Durante una sesión
 
-1. Escribir: `ok sigamos` (para continuar)
-2. Trabajar en el paso actual
-3. Cuando termines: `ok sync` (para auditar)
-4. Cuando estés listo: `ok commit` (para guardar)
+1. Escribe: `okk sigamos` (para continuar)
+2. Trabaja en el paso actual
+3. Cuando termines: `okk sync` (para auditar)
+4. Cuando estés listo: `okk commit` (para guardar)
 
 ### Diagrama de Flujo
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   Flujo de Trabajo OK_Init                  │
+│                  Flujo de Trabajo okk_init                  │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
-│  │ ok init  │───▶│ 6 Preg.  │───▶│ 5 archivos│             │
-│  └──────────┘    └──────────┘    └──────────┘              │
+│  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
+│  │ okk init  │───▶│ 6 Preg.  │───▶│ 5 archivos│            │
+│  └───────────┘    └──────────┘    └──────────┘             │
 │       │                              │                      │
 │       ▼                              ▼                      │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐              │
-│  │ok sigamos│───▶│  Leer    │───▶│ Trabajar │              │
-│  └──────────┘    │  estado  │    │  código  │              │
-│                  └──────────┘    └──────────┘              │
+│  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
+│  │okk sigamos│───▶│  Leer    │───▶│ Trabajar │             │
+│  └───────────┘    │  estado  │    │  código  │             │
+│                  └──────────┘    └──────────┘             │
 │                                     │                       │
 │                                     ▼                       │
-│                              ┌──────────┐                   │
-│                              │ ok sync  │                   │
-│                              └──────────┘                   │
+│                              ┌───────────┐                  │
+│                              │ okk sync  │                  │
+│                              └───────────┘                  │
 │                                     │                       │
 │                                     ▼                       │
-│                              ┌──────────┐                   │
-│                              │ok commit │                   │
-│                              └──────────┘                   │
+│                              ┌───────────┐                  │
+│                              │ okk commit│                  │
+│                              └───────────┘                  │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Instalación
+## Estructura del Repositorio
 
-> [!tip] Multi-plataforma
-> OK_Init funciona con 7 agentes de IA. Ver la sección **Agentes Compatibles** en inglés para instrucciones detalladas por plataforma.
-
-**Global (todos los proyectos):**
-
-```bash
-mkdir -p ~/.config/opencode/skills/ok-init
-cp .opencode/skills/ok-init/SKILL.md ~/.config/opencode/skills/ok-init/
+```
+okk_init/
+├── README.md                      # Este archivo
+├── CONVENTIONS.md                 # Convenciones para Aider
+├── REFERENCE.md                   # Referencia completa
+├── LICENSE                        # MIT
+├── .gitignore
+│
+├── skills/                        # Todas las skills organizadas
+│   ├── opencode/
+│   │   └── okk-init/
+│   │       └── SKILL.md
+│   ├── claude-code/
+│   │   ├── okk-init/
+│   │   │   └── SKILL.md
+│   │   └── CLAUDE.md
+│   ├── cursor/
+│   │   └── .cursorrules
+│   ├── windsurf/
+│   │   └── .windsurfrules
+│   └── cline/
+│       └── governance.md
+│
+└── .opencode/                     # Para desarrollo local
+    └── skills/
+        └── okk-init/
+            └── SKILL.md
 ```
 
-**Local (un solo proyecto):**
+---
 
-```bash
-mkdir -p .opencode/skills/ok-init
-cp .opencode/skills/ok-init/SKILL.md .opencode/skills/ok-init/
-```
+## Requisitos
 
-> [!important] Estructura correcta
-> Los skills DEBEN seguir el formato `.opencode/skills/<nombre>/SKILL.md` con frontmatter válido. El campo `name` en el frontmatter debe coincidir con el nombre de la carpeta.
+- Uno de: [OpenCode](https://opencode.ai), [Claude Code](https://claude.com), [Cursor](https://cursor.com), [Windsurf](https://windsurf.com), o [Cline](https://cline.bot)
+- Obsidian (opcional, para graph views)
+
+---
+
+## Licencia
+
+MIT

@@ -1,6 +1,10 @@
+---
+name: okk-init
+description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "okk init", "okk sigamos", "okk sync", "okk status" o "okk commit".
+---
+
 # okk_init — Project Governance Skill
 
-**Name:** ok-init
 **Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
@@ -31,7 +35,11 @@ Before asking questions, check if governance files exist in the current director
 → Go to Step 1 (6 questions)
 
 **If "Use context":**
-1. Read the entire current conversation
+
+> [!warning] Privacy notice
+> This mode reads the current conversation to extract project decisions only (project name, stack, database, testing, UI, auth). No sensitive data (API keys, passwords, tokens, personal information) should be extracted or stored. If the conversation contains sensitive information, ask the user to confirm before proceeding.
+
+1. Read the current conversation **focusing only on project decisions**
 2. Extract decisions made (project name, stack, database, testing, UI, auth)
 3. Show summary to user:
 
@@ -369,24 +377,7 @@ Generate the following files in the current working directory:
 
 ---
 
-### Step 3: Create `opencode.json`
-
-If it doesn't exist, create `opencode.json` in the current directory:
-
-```json
-{
-  "$schema": "https://opencode.ai",
-  "mcp": {
-    "microsoft-docs": {
-      "type": "remote",
-      "url": "https://learn.microsoft.com/api/mcp",
-      "enabled": true
-    }
-  }
-}
-```
-
-### Step 4: Confirm
+### Step 3: Confirm
 
 Show summary of generated files:
 
@@ -398,6 +389,22 @@ Show summary of generated files:
 ├── progress.md
 └── history.md
 ```
+
+> [!note] Optional: MCP configuration
+> If you need MCP servers (e.g., for documentation or external tools), you can configure them manually in `opencode.json`. Example:
+> ```json
+> {
+>   "$schema": "https://opencode.ai/config.json",
+>   "mcp": {
+>     "server-name": {
+>       "type": "remote",
+>       "url": "https://example.com/api/mcp",
+>       "enabled": true
+>     }
+>   }
+> }
+> ```
+> Never auto-create MCP configurations without explicit user request.
 
 Ask if they want to open Obsidian to verify the links.
 
@@ -461,12 +468,23 @@ If the user types "okk sync":
 | MD documents, code DOESN'T exist | MARK as "Not built" (do NOT delete) |
 | MD documents, code was DELETED | MARK as "Removed" (do NOT delete) |
 
+### Sync Exclusions
+
+> [!warning] Security: Do NOT scan these paths
+> Always exclude from sync scanning:
+> - `.git/` — Version control internals
+> - `node_modules/`, `bin/`, `obj/`, `dist/` — Build artifacts
+> - `.env*`, `*.key`, `*.pem`, `*.p12`, `*.jks` — Secrets and certificates
+> - `secrets/`, `credentials/` — Sensitive directories
+> - `*.log`, `*.tmp` — Temporary files
+
 ### Sync Flow
 
 1. Read all 5 governance files
-2. Scan actual code structure (glob patterns)
-3. Compare using sync rules
-4. Show report:
+2. Scan actual code structure using **explicit glob patterns only** (e.g., `src/**/*.cs`, `tests/**/*.cs`)
+3. **Exclude** paths listed in Sync Exclusions above
+4. Compare using sync rules
+5. Show report:
 
 ```
 📊 Sync Report - {{PROJECT_NAME}}
@@ -482,15 +500,14 @@ If the user types "okk sync":
 
 ⏸️ Pending - Not built (2):
 - progress.md: "3.2 Add validation" → code doesn't exist
-- agent.md: "Payment module" → not implemented
 
 ❌ Removed from code (1):
 - stack.md: "LegacyService" → removed
 ```
 
-5. Ask: "Do you want to update the MD files?"
-6. If yes → update MD (keep entries, change status)
-7. If no → show report only
+6. Ask: "Do you want to update the MD files?"
+7. If yes → update MD (keep entries, change status)
+8. If no → show report only
 
 > [!warning] Never delete entries
 > When code doesn't exist, MARK as "Not built" instead of deleting from MD.
@@ -539,10 +556,24 @@ If the user types "okk commit":
 ### Commit Flow
 
 1. Run `git status` and capture output
-2. Classify modified files:
+2. **Check `.gitignore` exists and review its contents**
+3. Classify modified files:
    - **Governance:** `progress.md`, `agent.md`, `stack.md`, `history.md`, `Proyecto *.md`
    - **Code:** All other files (src/, tests/, etc.)
-3. Show summary:
+4. **Secret detection — scan for sensitive files:**
+
+> [!warning] Security: Secret detection
+> Before staging files, check if any match these patterns:
+> - `.env*`, `.env.local`, `.env.production`
+> - `*.key`, `*.pem`, `*.p12`, `*.jks`, `*.keystore`
+> - `credentials.*`, `secrets.*`, `*secret*`
+> - `appsettings.*.json` (if contains connection strings)
+> - `docker-compose*.yml` (if contains passwords)
+> - Any file matching: `password`, `token`, `api_key`, `secret`
+>
+> **If any match:** Show a WARNING to the user and ask for explicit confirmation before staging.
+
+5. Show summary:
 
 ```
 📝 Governance (3 archivos):
@@ -554,9 +585,12 @@ If the user types "okk commit":
 - src/Services/PaymentService.cs (nuevo)
 - src/Controllers/WebhookController.cs (modificado)
 - tests/PaymentTests.cs (nuevo)
+
+⚠️ Sensitive files detected (0):
+- (none)
 ```
 
-4. Ask: **¿Qué quieres commitear?**
+6. Ask: **¿Qué quieres commitear?**
 
 | Option | Description |
 |--------|-------------|
@@ -565,15 +599,18 @@ If the user types "okk commit":
 | **3. Ambos** | Governance + code |
 | **4. No** | Cancel |
 
-5. If user selects 1, 2, or 3 → ask: **¿Mensaje de commit?**
+7. If user selects 1, 2, or 3 → ask: **¿Mensaje de commit?**
    - Option A: User types custom message
    - Option B: Press Enter for auto-suggested message based on modified files
 
-6. Execute:
-   - `git add [files]`
+8. Execute **with specific files only**:
+   - `git add <list-of-specific-files>`
    - `git commit -m "[message]"`
 
-7. Show result: `✅ Commit realizado: [hash]`
+> [!danger] Never use `git add .`
+> Always stage files explicitly by name. Never use `git add .` or `git add -A` to avoid committing secrets, build artifacts, or unintended files.
+
+9. Show result: `✅ Commit realizado: [hash]`
 
 ### Auto-Suggested Messages
 
@@ -610,8 +647,8 @@ AI: ¿Mensaje de commit? (o Enter para sugerencia automática)
 
 USUARIO: [Enter]
 
-AI: [git add .]
-    [git commit -m "feat: payment service + governance update"]
+AI: git add src/Services/PaymentService.cs src/Controllers/WebhookController.cs tests/PaymentTests.cs progress.md agent.md history.md
+    git commit -m "feat: payment service + governance update"
     ✅ Commit realizado: abc1234
 ```
 

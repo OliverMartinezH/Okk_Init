@@ -1,11 +1,11 @@
 ---
-name: ok-init
-description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "ok init", "ok sigamos", "ok sync", "ok status" o "ok commit".
+name: okk-init
+description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "okk init", "okk sigamos", "okk sync", "okk status" o "okk commit".
 ---
 
-# OK_Init — Project Governance Skill
+# okk_init — Project Governance Skill
 
-**Triggers:** `ok init`, `ok sigamos`, `ok sync`, `ok status`, `ok commit`
+**Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
 ---
@@ -438,12 +438,12 @@ After generating files, instruct the user on the workflow:
 
 ---
 
-## Trigger: "ok sigamos"
+## Trigger: "okk sigamos"
 
-If the user types "ok sigamos":
+If the user types "okk sigamos":
 
 1. Verify governance files exist
-2. If they do NOT exist → inform and suggest `ok init`
+2. If they do NOT exist → inform and suggest `okk init`
 3. If they DO exist → skip menu and go directly to **Session Protocol**
 4. Read `progress.md`, `agent.md`, `stack.md`
 5. Show summary of current state
@@ -451,12 +451,12 @@ If the user types "ok sigamos":
 
 ---
 
-## Trigger: "ok sync"
+## Trigger: "okk sync"
 
-If the user types "ok sync":
+If the user types "okk sync":
 
 1. Verify governance files exist
-2. If they do NOT exist → inform and suggest `ok init`
+2. If they do NOT exist → inform and suggest `okk init`
 3. If they DO exist → proceed with sync audit:
 
 ### Sync Rules
@@ -515,12 +515,12 @@ If the user types "ok sync":
 
 ---
 
-## Trigger: "ok status"
+## Trigger: "okk status"
 
-If the user types "ok status":
+If the user types "okk status":
 
 1. Verify governance files exist
-2. If they do NOT exist → inform and suggest `ok init`
+2. If they do NOT exist → inform and suggest `okk init`
 3. If they DO exist → read all 5 MD files and show dashboard:
 
 ### Dashboard Format
@@ -545,12 +545,12 @@ Próximo paso: 2.1 Create domain entities
 
 ---
 
-## Trigger: "ok commit"
+## Trigger: "okk commit"
 
-If the user types "ok commit":
+If the user types "okk commit":
 
 1. Verify governance files exist
-2. If they do NOT exist → inform and suggest `ok init`
+2. If they do NOT exist → inform and suggest `okk init`
 3. If they DO exist → proceed with commit flow:
 
 ### Commit Flow
@@ -624,7 +624,7 @@ If the user types "ok commit":
 ### Example Interaction
 
 ```
-USUARIO: ok commit
+USUARIO: okk commit
 
 AI: 📝 Governance (2 archivos):
     - progress.md (modificado)

@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-## OK_Init - Project Governance
+## okk_init - Project Governance
 
-This project uses OK_Init governance system with 5 files:
+This project uses okk_init governance system with 5 files:
 - `Proyecto [NAME].md` - Architectural map
 - `agent.md` - Coding rules + decisions
 - `stack.md` - Tech stack + data model
@@ -12,11 +12,11 @@ This project uses OK_Init governance system with 5 files:
 ## Commands
 
 Use these slash commands:
-- `/ok init` - Initialize or continue project
-- `/ok sigamos` - Continue from where we left off
-- `/ok sync` - Audit MD vs code
-- `/ok status` - Show dashboard
-- `/ok commit` - Commit changes
+- `/okk init` - Initialize or continue project
+- `/okk sigamos` - Continue from where we left off
+- `/okk sync` - Audit MD vs code
+- `/okk status` - Show dashboard
+- `/okk commit` - Commit changes
 
 ## Rules
 

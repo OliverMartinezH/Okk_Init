@@ -1,14 +1,14 @@
 ---
-name: ok-init
-description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "ok init", "ok sigamos", "ok sync", "ok status" o "ok commit".
+name: okk-init
+description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "okk init", "okk sigamos", "okk sync", "okk status" o "okk commit".
 version: 1.0.0
 ---
 
-# OK_Init — Project Governance Skill
+# okk_init — Project Governance Skill
 
-## Trigger: "ok init"
+## Trigger: "okk init"
 
-If the user types "ok init":
+If the user types "okk init":
 
 1. Verify governance files exist in current directory
 2. If they do NOT exist → Ask:
@@ -19,14 +19,14 @@ If the user types "ok init":
    - What UI framework? (default: Tailwind CDN)
    - What auth strategy? (default: Cookie Authentication)
 3. Generate 5 governance files with Obsidian wiki-links
-4. If files DO exist → Continue directly (like ok sigamos)
+4. If files DO exist → Continue directly (like okk sigamos)
 
 > [!warning] Privacy notice
 > This mode reads the current conversation to extract project decisions only (project name, stack, database, testing, UI, auth). No sensitive data (API keys, passwords, tokens, personal information) should be extracted or stored. If the conversation contains sensitive information, ask the user to confirm before proceeding.
 
-## Trigger: "ok sigamos"
+## Trigger: "okk sigamos"
 
-If the user types "ok sigamos":
+If the user types "okk sigamos":
 
 1. Verify governance files exist
 2. Read `progress.md` → current phase and next step
@@ -34,9 +34,9 @@ If the user types "ok sigamos":
 4. Read `stack.md` → technical decisions
 5. Show summary and ask: "What do you want to do now?"
 
-## Trigger: "ok sync"
+## Trigger: "okk sync"
 
-If the user types "ok sync":
+If the user types "okk sync":
 
 1. Verify governance files exist
 2. Read all 5 governance files
@@ -59,9 +59,9 @@ If the user types "ok sync":
 > When code doesn't exist, MARK as "Not built" instead of deleting from MD.
 > The MD files represent the plan/vision, not just what's built.
 
-## Trigger: "ok status"
+## Trigger: "okk status"
 
-If the user types "ok status":
+If the user types "okk status":
 
 1. Verify governance files exist
 2. Read all 5 governance files
@@ -71,9 +71,9 @@ If the user types "ok status":
    - Last session (from history.md)
    - Next step (first unchecked task)
 
-## Trigger: "ok commit"
+## Trigger: "okk commit"
 
-If the user types "ok commit":
+If the user types "okk commit":
 
 1. Verify governance files exist
 2. Run `git status`
@@ -105,7 +105,7 @@ If the user types "ok commit":
 ### Example Interaction
 
 ```
-USUARIO: ok commit
+USUARIO: okk commit
 
 AI: 📝 Governance (2 archivos):
     - progress.md (modificado)
