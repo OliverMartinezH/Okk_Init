@@ -5,7 +5,7 @@ description: Sistema de gobernanza para proyectos con Obsidian wiki-links y prot
 
 # Okk_Init — Project Governance Skill
 
-**Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`
+**Triggers:** `okk init`, `okk sigamos`, `okk decide`, `okk sync`, `okk status`, `okk commit`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
 ---
@@ -28,11 +28,11 @@ Before asking questions, check if governance files exist in the current director
 
 | Option | Description |
 |--------|-------------|
-| **Ask all** | I'll ask 6 questions to configure everything |
+| **Ask all** | I'll ask 7 questions to configure everything |
 | **Use context** | Generate files based on what we've discussed |
 
 **If "Ask all":**
-→ Go to Step 1 (6 questions)
+→ Go to Step 1 (7 questions)
 
 **If "Use context":**
 
@@ -74,7 +74,7 @@ Ask these questions **one by one** or **in groups** (max 3 per message to avoid 
 
 | # | Question | Variable | Default |
 |---|----------|----------|---------|
-| 1 | What's the project name? | `{{PROJECT_NAME}}` | *(required)* |
+| 1 | What's the project name? (Enter for folder name) | `{{PROJECT_NAME}}` | *(current folder name)* |
 | 2 | What tech stack? (Enter for default) | `{{STACK}}` | .NET 10 + C# 14 |
 | 3 | What database? (Enter for default) | `{{DATABASE}}` | SQL Server 2022 |
 | 4 | What testing framework? (Enter for default) | `{{TEST_FRAMEWORK}}` | xUnit + Moq |
@@ -83,6 +83,9 @@ Ask these questions **one by one** or **in groups** (max 3 per message to avoid 
 | 7 | Auto-commit at end of session? (Enter for default) | `{{AUTO_COMMIT}}` | Yes |
 
 If user presses Enter without typing, use the default value.
+
+> [!tip] Folder name default
+> For question 1, if the user presses Enter, detect the current working directory name and use it as the project name. This avoids requiring manual input when the folder is already named correctly.
 
 > [!tip] Session preferences
 > Question 7 configures whether the agent will ask to commit changes at the end of each session (after updating governance files). This setting is stored in `agent.md` and can be changed later.
@@ -445,6 +448,24 @@ After generating files, instruct the user on the workflow:
 - Delivery format: full file path as header
 
 ### At the END of each session (after user approval):
+0. **Auto-detect decisions** → Scan the conversation for decisions not yet captured via `okk decide`:
+   - Review the full conversation looking for: tech choices, architecture decisions, coding rules, workflow changes
+   - Compare against decisions already registered via `okk decide` (session memory)
+   - Show list of unregistered decisions found:
+
+   ```
+   🔍 Decisiones detectadas en la conversación (no registradas aún):
+   
+   1. "Usaremos PostgreSQL en vez de SQL Server" → stack.md (Technologies)
+   2. "El agente siempre debe validar inputs" → agent.md (Decisions)
+   
+   ¿Cuáles quieres registrar?
+   [Enter = todas, numbers = selectivos, "n" = ninguna]
+   ```
+
+   - After user confirms → add to the update list below
+   - This catches decisions the user forgot to register with `okk decide`
+
 1. **`progress.md`** → Mark task as completed + set next step
 2. **`history.md`** → Move completed phase with date (DD/MM/YYYY HH:MM America/Santiago)
 3. **`stack.md`** → Document new technical decisions (show only lines to add)
@@ -471,6 +492,113 @@ If the user types "okk sigamos":
 4. Read `progress.md`, `agent.md`, `stack.md`
 5. Show summary of current state
 6. Ask: "What do you want to do now?"
+
+---
+
+## Trigger: "okk decide"
+
+If the user types "okk decide" followed by a decision:
+
+### Flow
+
+1. Verify governance files exist
+2. If they do NOT exist → inform and suggest `okk init`
+3. If they DO exist → capture the decision:
+
+### Step 1: Parse the decision
+
+The user formats it as:
+```
+okk decide: [decision text]
+```
+
+If no text after `okk decide`, ask: "¿Qué decidiste?"
+
+### Step 2: Classify automatically
+
+Analyze the decision and determine where it belongs:
+
+| Decision type | Target file | Section |
+|---------------|-------------|---------|
+| Tech choice (language, framework, DB, library) | `stack.md` | Technologies |
+| Architecture pattern (folder structure, layers) | `stack.md` | Project Structure |
+| UI/visual standard | `stack.md` | UI Standard |
+| Role/permission model | `stack.md` | Roles and Permissions |
+| Data model change (new entity, field) | `stack.md` | Data Model |
+| Coding rule (naming, error handling, testing) | `agent.md` | Development Philosophy |
+| Testing rule (framework, naming convention) | `agent.md` | Testing Guidelines |
+| Workflow rule (commit, branch, review) | `agent.md` | Decisions and Agreed Rules |
+| Phase/scope change | `progress.md` | Implementation Checklist |
+
+> [!tip] Multiple targets
+> A decision can belong to multiple files. For example: "We'll use CQRS pattern" → `stack.md` (architecture) + `agent.md` (coding rule).
+
+### Step 3: Show summary and confirm
+
+```
+📝 Decisión capturada: [decision text]
+→ Guardaré esto en:
+  - stack.md (sección "[section name]")  ← if applies
+  - agent.md (sección "[section name]")  ← if applies
+
+¿Correcto?
+1. Sí, guardar
+2. No, descartar
+```
+
+### Step 4: Update files (after approval)
+
+Show the exact lines to add (do NOT update yet — wait for user to confirm in Session Protocol end):
+
+```markdown
+<!-- ADD to stack.md section "[section]": -->
+* [new decision line]
+
+<!-- ADD to agent.md section "[section]": -->
+* [new decision line]
+```
+
+> [!note] Deferred update
+> Decision capture via `okk decide` does NOT immediately update files.
+> The actual file update happens at the END of the session (Session Protocol).
+> This prevents partial edits and keeps the golden rule: files update only after approval.
+
+### Step 5: Store in session memory
+
+Add the decision to a temporary session list so it can be:
+- Reviewed at the end of the session
+- Included in the final `okk commit` summary
+- Auto-detected if user forgets to run `okk decide`
+
+### Example Interaction
+
+```
+USUARIO: okk decide: usaremos PostgreSQL en vez de SQL Server
+
+AI: 📝 Decisión capturada: PostgreSQL como base de datos
+    → Guardaré esto en stack.md (sección "Technologies")
+    
+    ¿Correcto?
+    1. Sí, guardar
+    2. No, descartar
+
+USUARIO: 1
+
+AI: ✅ Decisión registrada. Se actualizará al final de la sesión.
+
+USUARIO: okk decide: el agente debe siempre validar inputs antes de procesar
+
+AI: 📝 Decisión capturada: Validar inputs antes de procesar
+    → Guardaré esto en agent.md (sección "Decisions and Agreed Rules")
+    
+    ¿Correcto?
+    1. Sí, guardar
+    2. No, descartar
+
+USUARIO: 1
+
+AI: ✅ Decisión registrada. Se actualizará al final de la sesión.
+```
 
 ---
 
