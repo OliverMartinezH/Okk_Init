@@ -5,7 +5,7 @@ description: Sistema de gobernanza para proyectos con Obsidian wiki-links y prot
 
 # Okk_Init — Project Governance Skill
 
-**Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`
+**Triggers:** `okk init`, `okk sigamos`, `okk decide`, `okk sync`, `okk status`, `okk commit`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.
 
 ---
@@ -448,6 +448,24 @@ After generating files, instruct the user on the workflow:
 - Delivery format: full file path as header
 
 ### At the END of each session (after user approval):
+0. **Auto-detect decisions** → Scan the conversation for decisions not yet captured via `okk decide`:
+   - Review the full conversation looking for: tech choices, architecture decisions, coding rules, workflow changes
+   - Compare against decisions already registered via `okk decide` (session memory)
+   - Show list of unregistered decisions found:
+
+   ```
+   🔍 Decisiones detectadas en la conversación (no registradas aún):
+   
+   1. "Usaremos PostgreSQL en vez de SQL Server" → stack.md (Technologies)
+   2. "El agente siempre debe validar inputs" → agent.md (Decisions)
+   
+   ¿Cuáles quieres registrar?
+   [Enter = todas, numbers = selectivos, "n" = ninguna]
+   ```
+
+   - After user confirms → add to the update list below
+   - This catches decisions the user forgot to register with `okk decide`
+
 1. **`progress.md`** → Mark task as completed + set next step
 2. **`history.md`** → Move completed phase with date (DD/MM/YYYY HH:MM America/Santiago)
 3. **`stack.md`** → Document new technical decisions (show only lines to add)
@@ -474,6 +492,113 @@ If the user types "okk sigamos":
 4. Read `progress.md`, `agent.md`, `stack.md`
 5. Show summary of current state
 6. Ask: "What do you want to do now?"
+
+---
+
+## Trigger: "okk decide"
+
+If the user types "okk decide" followed by a decision:
+
+### Flow
+
+1. Verify governance files exist
+2. If they do NOT exist → inform and suggest `okk init`
+3. If they DO exist → capture the decision:
+
+### Step 1: Parse the decision
+
+The user formats it as:
+```
+okk decide: [decision text]
+```
+
+If no text after `okk decide`, ask: "¿Qué decidiste?"
+
+### Step 2: Classify automatically
+
+Analyze the decision and determine where it belongs:
+
+| Decision type | Target file | Section |
+|---------------|-------------|---------|
+| Tech choice (language, framework, DB, library) | `stack.md` | Technologies |
+| Architecture pattern (folder structure, layers) | `stack.md` | Project Structure |
+| UI/visual standard | `stack.md` | UI Standard |
+| Role/permission model | `stack.md` | Roles and Permissions |
+| Data model change (new entity, field) | `stack.md` | Data Model |
+| Coding rule (naming, error handling, testing) | `agent.md` | Development Philosophy |
+| Testing rule (framework, naming convention) | `agent.md` | Testing Guidelines |
+| Workflow rule (commit, branch, review) | `agent.md` | Decisions and Agreed Rules |
+| Phase/scope change | `progress.md` | Implementation Checklist |
+
+> [!tip] Multiple targets
+> A decision can belong to multiple files. For example: "We'll use CQRS pattern" → `stack.md` (architecture) + `agent.md` (coding rule).
+
+### Step 3: Show summary and confirm
+
+```
+📝 Decisión capturada: [decision text]
+→ Guardaré esto en:
+  - stack.md (sección "[section name]")  ← if applies
+  - agent.md (sección "[section name]")  ← if applies
+
+¿Correcto?
+1. Sí, guardar
+2. No, descartar
+```
+
+### Step 4: Update files (after approval)
+
+Show the exact lines to add (do NOT update yet — wait for user to confirm in Session Protocol end):
+
+```markdown
+<!-- ADD to stack.md section "[section]": -->
+* [new decision line]
+
+<!-- ADD to agent.md section "[section]": -->
+* [new decision line]
+```
+
+> [!note] Deferred update
+> Decision capture via `okk decide` does NOT immediately update files.
+> The actual file update happens at the END of the session (Session Protocol).
+> This prevents partial edits and keeps the golden rule: files update only after approval.
+
+### Step 5: Store in session memory
+
+Add the decision to a temporary session list so it can be:
+- Reviewed at the end of the session
+- Included in the final `okk commit` summary
+- Auto-detected if user forgets to run `okk decide`
+
+### Example Interaction
+
+```
+USUARIO: okk decide: usaremos PostgreSQL en vez de SQL Server
+
+AI: 📝 Decisión capturada: PostgreSQL como base de datos
+    → Guardaré esto en stack.md (sección "Technologies")
+    
+    ¿Correcto?
+    1. Sí, guardar
+    2. No, descartar
+
+USUARIO: 1
+
+AI: ✅ Decisión registrada. Se actualizará al final de la sesión.
+
+USUARIO: okk decide: el agente debe siempre validar inputs antes de procesar
+
+AI: 📝 Decisión capturada: Validar inputs antes de procesar
+    → Guardaré esto en agent.md (sección "Decisions and Agreed Rules")
+    
+    ¿Correcto?
+    1. Sí, guardar
+    2. No, descartar
+
+USUARIO: 1
+
+AI: ✅ Decisión registrada. Se actualizará al final de la sesión.
+```
 
 ---
 
