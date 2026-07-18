@@ -18,8 +18,12 @@ If the user types "okk init":
    - What testing framework? (default: xUnit + Moq)
    - What UI framework? (default: Tailwind CDN)
    - What auth strategy? (default: Cookie Authentication)
+   - Auto-commit at end of session? (default: Yes)
 3. Generate 5 governance files with Obsidian wiki-links
 4. If files DO exist → Continue directly (like okk sigamos)
+
+> [!tip] Session preferences
+> Question 7 configures whether the agent will ask to commit changes at the end of each session (after updating governance files). This setting is stored in `agent.md` and can be changed later.
 
 > [!warning] Privacy notice
 > This mode reads the current conversation to extract project decisions only (project name, stack, database, testing, UI, auth). No sensitive data (API keys, passwords, tokens, personal information) should be extracted or stored. If the conversation contains sensitive information, ask the user to confirm before proceeding.
@@ -76,12 +80,36 @@ If the user types "okk status":
 If the user types "okk commit":
 
 1. Verify governance files exist
-2. Run `git status`
-3. **Check `.gitignore` exists and review its contents**
-4. Classify modified files:
+2. If they do NOT exist → inform and suggest `okk init`
+3. If they DO exist → proceed with commit flow:
+
+### Commit Flow
+
+1. **`git fetch origin`** (silently update remote refs)
+2. **Check if behind remote:**
+   - Run `git rev-list --count master..origin/master` to get behind count
+   - If **behind > 0** → Show warning:
+     ```
+     ⚠️ Estás [N] commits behind origin/master
+     ¿Quieres hacer pull antes de commitear?
+     1. Sí, hacer pull
+     2. No, continuar sin pull
+     ```
+     - If user selects **Sí** → Run `git pull`
+       - If **conflict** → STOP and warn:
+         ```
+         ❌ Hay conflictos de merge.
+         Resuélvelos manualmente con 'git pull' y luego vuelve a ejecutar 'okk commit'.
+         ```
+       - If **success** → Continue to step 3
+     - If user selects **No** → Continue to step 3
+   - If **behind = 0** → Continue silently to step 3
+3. Run `git status` and capture output
+4. **Check `.gitignore` exists and review its contents**
+5. Classify modified files:
    - Governance: `progress.md`, `agent.md`, `stack.md`, `history.md`, `Proyecto *.md`
    - Code: All other files
-5. **Secret detection — scan for sensitive files:**
+6. **Secret detection — scan for sensitive files:**
 
 > [!warning] Security: Secret detection
 > Before staging files, check if any match these patterns:
@@ -94,10 +122,10 @@ If the user types "okk commit":
 >
 > **If any match:** Show a WARNING to the user and ask for explicit confirmation before staging.
 
-6. Show summary with sensitive file count
-7. Ask: What to commit? (Governance / Code / Both / Cancel)
-8. Ask: Commit message? (custom or auto-suggest)
-9. Execute git add + commit **with specific files only**
+7. Show summary with sensitive file count
+8. Ask: What to commit? (Governance / Code / Both / Cancel)
+9. Ask: Commit message? (custom or auto-suggest)
+10. Execute git add + commit **with specific files only**
 
 > [!danger] Never use `git add .`
 > Always stage files explicitly by name. Never use `git add .` or `git add -A` to avoid committing secrets, build artifacts, or unintended files.
@@ -245,6 +273,20 @@ AI: git add src/Services/PaymentService.cs src/Controllers/WebhookController.cs 
 > Agreed decisions are recorded here for future reference.
 
 * Pending first development session.
+
+---
+
+## 5. Session Preferences
+
+| Setting | Value |
+|---------|-------|
+| Auto-commit on session end | {{AUTO_COMMIT}} |
+| Pull before commit | Yes |
+
+> [!tip] Customize
+> Change these values to adjust session behavior.
+> `Auto-commit`: Ask to commit at end of session after updating governance files.
+> `Pull before commit`: Check if behind remote before committing.
 ```
 
 ### stack.md
@@ -444,6 +486,11 @@ AI: git add src/Services/PaymentService.cs src/Controllers/WebhookController.cs 
 2. **`history.md`** → Move completed phase with date (DD/MM/YYYY HH:MM America/Santiago)
 3. **`stack.md`** → Document new technical decisions (show only lines to add)
 4. **`agent.md`** → Document new rules/decisions (show only lines to add)
+5. **Auto-commit check** → Read `agent.md` section 5 (Session Preferences):
+   - If `Auto-commit on session end` = **Yes** → Ask: "¿Quieres commitear los cambios?"
+     - **Sí** → Execute `okk commit` flow
+     - **No** → End session
+   - If `Auto-commit on session end` = **No** → End session without asking
 
 > [!warning] Golden rule
 > Files are **only updated AFTER user approval**.

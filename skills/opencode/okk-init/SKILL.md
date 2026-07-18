@@ -68,7 +68,7 @@ Before asking questions, check if governance files exist in the current director
 
 ---
 
-### Step 1: Collect data (6 questions)
+### Step 1: Collect data (7 questions)
 
 Ask these questions **one by one** or **in groups** (max 3 per message to avoid overwhelm):
 
@@ -80,8 +80,12 @@ Ask these questions **one by one** or **in groups** (max 3 per message to avoid 
 | 4 | What testing framework? (Enter for default) | `{{TEST_FRAMEWORK}}` | xUnit + Moq |
 | 5 | What UI framework? (Enter for default) | `{{UI_FRAMEWORK}}` | Tailwind CDN |
 | 6 | What auth strategy? (Enter for default) | `{{AUTH_STRATEGY}}` | Cookie Authentication |
+| 7 | Auto-commit at end of session? (Enter for default) | `{{AUTO_COMMIT}}` | Yes |
 
 If user presses Enter without typing, use the default value.
+
+> [!tip] Session preferences
+> Question 7 configures whether the agent will ask to commit changes at the end of each session (after updating governance files). This setting is stored in `agent.md` and can be changed later.
 
 ---
 
@@ -196,6 +200,20 @@ Generate the following files in the current working directory:
 > Agreed decisions are recorded here for future reference.
 
 * Pending first development session.
+
+---
+
+## 5. Session Preferences
+
+| Setting | Value |
+|---------|-------|
+| Auto-commit on session end | {{AUTO_COMMIT}} |
+| Pull before commit | Yes |
+
+> [!tip] Customize
+> Change these values to adjust session behavior.
+> `Auto-commit`: Ask to commit at end of session after updating governance files.
+> `Pull before commit`: Check if behind remote before committing.
 ```
 
 ---
@@ -431,6 +449,11 @@ After generating files, instruct the user on the workflow:
 2. **`history.md`** → Move completed phase with date (DD/MM/YYYY HH:MM America/Santiago)
 3. **`stack.md`** → Document new technical decisions (show only lines to add)
 4. **`agent.md`** → Document new rules/decisions (show only lines to add)
+5. **Auto-commit check** → Read `agent.md` section 5 (Session Preferences):
+   - If `Auto-commit on session end` = **Yes** → Ask: "¿Quieres commitear los cambios?"
+     - **Sí** → Execute `okk commit` flow
+     - **No** → End session
+   - If `Auto-commit on session end` = **No** → End session without asking
 
 > [!warning] Golden rule
 > Files are **only updated AFTER user approval**.
@@ -555,12 +578,31 @@ If the user types "okk commit":
 
 ### Commit Flow
 
-1. Run `git status` and capture output
-2. **Check `.gitignore` exists and review its contents**
-3. Classify modified files:
+1. **`git fetch origin`** (silently update remote refs)
+2. **Check if behind remote:**
+   - Run `git rev-list --count master..origin/master` to get behind count
+   - If **behind > 0** → Show warning:
+     ```
+     ⚠️ Estás [N] commits behind origin/master
+     ¿Quieres hacer pull antes de commitear?
+     1. Sí, hacer pull
+     2. No, continuar sin pull
+     ```
+     - If user selects **Sí** → Run `git pull`
+       - If **conflict** → STOP and warn:
+         ```
+         ❌ Hay conflictos de merge.
+         Resuélvelos manualmente con 'git pull' y luego vuelve a ejecutar 'okk commit'.
+         ```
+       - If **success** → Continue to step 3
+     - If user selects **No** → Continue to step 3
+   - If **behind = 0** → Continue silently to step 3
+3. Run `git status` and capture output
+4. **Check `.gitignore` exists and review its contents**
+5. Classify modified files:
    - **Governance:** `progress.md`, `agent.md`, `stack.md`, `history.md`, `Proyecto *.md`
    - **Code:** All other files (src/, tests/, etc.)
-4. **Secret detection — scan for sensitive files:**
+6. **Secret detection — scan for sensitive files:**
 
 > [!warning] Security: Secret detection
 > Before staging files, check if any match these patterns:
@@ -573,7 +615,7 @@ If the user types "okk commit":
 >
 > **If any match:** Show a WARNING to the user and ask for explicit confirmation before staging.
 
-5. Show summary:
+7. Show summary:
 
 ```
 📝 Governance (3 archivos):
@@ -590,7 +632,7 @@ If the user types "okk commit":
 - (none)
 ```
 
-6. Ask: **¿Qué quieres commitear?**
+8. Ask: **¿Qué quieres commitear?**
 
 | Option | Description |
 |--------|-------------|
@@ -599,18 +641,18 @@ If the user types "okk commit":
 | **3. Ambos** | Governance + code |
 | **4. No** | Cancel |
 
-7. If user selects 1, 2, or 3 → ask: **¿Mensaje de commit?**
+9. If user selects 1, 2, or 3 → ask: **¿Mensaje de commit?**
    - Option A: User types custom message
    - Option B: Press Enter for auto-suggested message based on modified files
 
-8. Execute **with specific files only**:
-   - `git add <list-of-specific-files>`
-   - `git commit -m "[message]"`
+10. Execute **with specific files only**:
+    - `git add <list-of-specific-files>`
+    - `git commit -m "[message]"`
 
 > [!danger] Never use `git add .`
 > Always stage files explicitly by name. Never use `git add .` or `git add -A` to avoid committing secrets, build artifacts, or unintended files.
 
-9. Show result: `✅ Commit realizado: [hash]`
+11. Show result: `✅ Commit realizado: [hash]`
 
 ### Auto-Suggested Messages
 
@@ -666,6 +708,7 @@ AI: git add src/Services/PaymentService.cs src/Controllers/WebhookController.cs 
 | `{{TEST_FRAMEWORK}}` | Testing framework | xUnit + Moq |
 | `{{UI_FRAMEWORK}}` | UI framework | Tailwind CDN |
 | `{{AUTH_STRATEGY}}` | Auth strategy | Cookie Authentication |
+| `{{AUTO_COMMIT}}` | Auto-commit on session end | Yes |
 
 ### Date Format
 
