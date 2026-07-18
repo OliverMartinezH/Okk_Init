@@ -654,6 +654,19 @@ If the user types "okk commit":
 
 11. Show result: `✅ Commit realizado: [hash]`
 
+### Push Flow
+
+12. Check if remote `origin` is configured:
+    - Run `git remote get-url origin`
+    - **If remote does NOT exist** → Ask: "No hay remote configurado. ¿Quieres crear el repo en GitHub?"
+      - **Sí** → Check if `gh` is installed (`gh --version`)
+        - If `gh` installed → Execute: `gh repo create {{PROJECT_NAME}} --private --source=. --remote=origin --push`
+        - If `gh` NOT installed → Warn: "Necesitas instalar GitHub CLI o configurar el remote manualmente:\n`git remote add origin <URL>`"
+      - **No** → End (local commit saved)
+    - **If remote EXISTS** → Ask: "¿Quieres push a origin?"
+      - **Sí** → Execute `git push`
+      - **No** → End
+
 ### Auto-Suggested Messages
 
 | Scenario | Message |
@@ -692,6 +705,15 @@ USUARIO: [Enter]
 AI: git add src/Services/PaymentService.cs src/Controllers/WebhookController.cs tests/PaymentTests.cs progress.md agent.md history.md
     git commit -m "feat: payment service + governance update"
     ✅ Commit realizado: abc1234
+
+    ¿Quieres push a origin?
+    1. Sí, hacer push
+    2. No, solo commit local
+
+USUARIO: 1
+
+AI: git push
+    ✅ Push realizado a origin/master
 ```
 
 ---
