@@ -28,11 +28,11 @@ Before asking questions, check if governance files exist in the current director
 
 | Option | Description |
 |--------|-------------|
-| **Ask all** | I'll ask 6 questions to configure everything |
+| **Ask all** | I'll ask 7 questions to configure everything |
 | **Use context** | Generate files based on what we've discussed |
 
 **If "Ask all":**
-→ Go to Step 1 (6 questions)
+→ Go to Step 1 (7 questions)
 
 **If "Use context":**
 
@@ -74,7 +74,7 @@ Ask these questions **one by one** or **in groups** (max 3 per message to avoid 
 
 | # | Question | Variable | Default |
 |---|----------|----------|---------|
-| 1 | What's the project name? | `{{PROJECT_NAME}}` | *(required)* |
+| 1 | What's the project name? (Enter for folder name) | `{{PROJECT_NAME}}` | *(current folder name)* |
 | 2 | What tech stack? (Enter for default) | `{{STACK}}` | .NET 10 + C# 14 |
 | 3 | What database? (Enter for default) | `{{DATABASE}}` | SQL Server 2022 |
 | 4 | What testing framework? (Enter for default) | `{{TEST_FRAMEWORK}}` | xUnit + Moq |
@@ -83,6 +83,9 @@ Ask these questions **one by one** or **in groups** (max 3 per message to avoid 
 | 7 | Auto-commit at end of session? (Enter for default) | `{{AUTO_COMMIT}}` | Yes |
 
 If user presses Enter without typing, use the default value.
+
+> [!tip] Folder name default
+> For question 1, if the user presses Enter, detect the current working directory name and use it as the project name. This avoids requiring manual input when the folder is already named correctly.
 
 > [!tip] Session preferences
 > Question 7 configures whether the agent will ask to commit changes at the end of each session (after updating governance files). This setting is stored in `agent.md` and can be changed later.

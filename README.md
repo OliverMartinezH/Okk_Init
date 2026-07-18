@@ -94,21 +94,22 @@ cp skills/cline/governance.md .clinerules/
 
 ---
 
-## The 6 Questions
+## The 7 Questions
 
-When you run `okk init` for the first time, Okk_Init asks 6 questions to configure your project. Press **Enter** to accept the default.
+When you run `okk init` for the first time, Okk_Init asks 7 questions to configure your project. Press **Enter** to accept the default.
 
 | # | Question | Default | Why it matters |
 |---|----------|---------|----------------|
-| 1 | Project name | *(required)* | Names all 5 governance files |
+| 1 | Project name | *(folder name)* | Names all 5 governance files |
 | 2 | Tech stack | `.NET 10 + C# 14` | Sets runtime in `stack.md` |
 | 3 | Database | `SQL Server 2022` | Configures data access layer |
 | 4 | Testing framework | `xUnit + Moq` | Defines test project structure |
 | 5 | UI framework | `Tailwind CDN` | Sets UI standard in `stack.md` |
 | 6 | Auth strategy | `Cookie Authentication` | Configures security layer |
+| 7 | Auto-commit on session end | `Yes` | Ask to commit after each session |
 
 > [!tip] Customize or default
-> All questions have sensible defaults. Just press Enter for each one and you'll have a working governance structure in 30 seconds.
+> All questions have sensible defaults. Just press Enter for each one and you'll have a working governance structure in 30 seconds. The project name defaults to the current folder name.
 
 ---
 
@@ -122,7 +123,7 @@ When you run `okk init` for the first time, Okk_Init asks 6 questions to configu
 okk init
 ```
 
-### 3. Answer 6 questions (or press Enter for defaults)
+### 3. Answer 7 questions (or press Enter for defaults)
 
 ### 4. Start coding!
 
@@ -152,7 +153,7 @@ okk commit
 
 1. Open your AI agent in the project folder
 2. Type: `okk init`
-3. Answer 6 questions (or press Enter for defaults)
+3. Answer 7 questions (or press Enter for defaults)
 4. Files are generated!
 5. Start coding with the AI
 
@@ -171,7 +172,7 @@ okk commit
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
-│  │ okk init  │───▶│ 6 Q's    │───▶│ 5 files  │             │
+│  │ okk init  │───▶│ 7 Q's    │───▶│ 5 files  │             │
 │  └───────────┘    └──────────┘    └──────────┘             │
 │       │                              │                      │
 │       ▼                              ▼                      │
@@ -400,21 +401,22 @@ cp skills/cline/governance.md .clinerules/
 
 ---
 
-## Las 6 Preguntas
+## Las 7 Preguntas
 
-Cuando ejecutas `okk init` por primera vez, Okk_Init hace 6 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
+Cuando ejecutas `okk init` por primera vez, Okk_Init hace 7 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
 
 | # | Pregunta | Por defecto | Por qué importa |
 |---|----------|-------------|------------------|
-| 1 | Nombre del proyecto | *(requerido)* | Nombra los 5 archivos de gobernanza |
+| 1 | Nombre del proyecto | *(nombre de carpeta)* | Nombra los 5 archivos de gobernanza |
 | 2 | Stack tecnológico | `.NET 10 + C# 14` | Define el runtime en `stack.md` |
 | 3 | Base de datos | `SQL Server 2022` | Configura la capa de acceso a datos |
 | 4 | Framework de testing | `xUnit + Moq` | Define la estructura del proyecto de tests |
 | 5 | Framework de UI | `Tailwind CDN` | Establece el estándar UI en `stack.md` |
 | 6 | Estrategia de auth | `Cookie Authentication` | Configura la capa de seguridad |
+| 7 | Auto-commit al final de sesión | `Yes` | Pregunta si commitear al final de cada sesión |
 
 > [!tip] Personalizar o usar defectos
-> Todas las preguntas tienen valores sensatos por defecto. Solo presiona Enter para cada una y tendrás una estructura de gobernanza funcionando en 30 segundos.
+> Todas las preguntas tienen valores sensatos por defecto. Solo presiona Enter para cada una y tendrás una estructura de gobernanza funcionando en 30 segundos. El nombre del proyecto asume el nombre de la carpeta actual.
 
 ---
 
@@ -428,7 +430,7 @@ Cuando ejecutas `okk init` por primera vez, Okk_Init hace 6 preguntas para confi
 okk init
 ```
 
-### 3. Responde 6 preguntas (o Enter para valores por defecto)
+### 3. Responde 7 preguntas (o Enter para valores por defecto)
 
 ### 4. ¡Empieza a codificar!
 
@@ -458,7 +460,7 @@ okk commit
 
 1. Abre tu agente de IA en la carpeta del proyecto
 2. Escribe: `okk init`
-3. Responde 6 preguntas (o Enter para valores por defecto)
+3. Responde 7 preguntas (o Enter para valores por defecto)
 4. ¡Se generan los archivos!
 5. Empieza a codificar con la IA
 
@@ -477,7 +479,7 @@ okk commit
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
-│  │ okk init  │───▶│ 6 Preg.  │───▶│ 5 archivos│            │
+│  │ okk init  │───▶│ 7 Preg.  │───▶│ 5 archivos│            │
 │  └───────────┘    └──────────┘    └──────────┘             │
 │       │                              │                      │
 │       ▼                              ▼                      │
