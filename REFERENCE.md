@@ -1,4 +1,4 @@
-# okk_init — Project Governance Skill
+# Okk_Init — Project Governance Skill
 
 **Name:** ok-init
 **Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`

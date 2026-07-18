@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-## okk_init - Project Governance
+## Okk_Init - Project Governance
 
-This project uses okk_init governance system with 5 files:
+This project uses Okk_Init governance system with 5 files:
 - `Proyecto [NAME].md` - Architectural map
 - `agent.md` - Coding rules + decisions
 - `stack.md` - Tech stack + data model

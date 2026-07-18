@@ -1,4 +1,4 @@
-# okk_init Governance Conventions
+# Okk_Init Governance Conventions
 
 ## Session Start
 Read these files for context:

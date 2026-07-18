@@ -3,7 +3,7 @@ name: okk-init
 description: Sistema de gobernanza para proyectos con Obsidian wiki-links y protocolo KISS. Usar cuando el usuario escriba "okk init", "okk sigamos", "okk sync", "okk status" o "okk commit".
 ---
 
-# okk_init — Project Governance Skill
+# Okk_Init — Project Governance Skill
 
 **Triggers:** `okk init`, `okk sigamos`, `okk sync`, `okk status`, `okk commit`
 **Description:** Generates a 5-file governance system for any project with Obsidian wiki-links and a KISS workflow protocol.

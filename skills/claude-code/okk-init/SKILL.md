@@ -4,7 +4,7 @@ description: Sistema de gobernanza para proyectos con Obsidian wiki-links y prot
 version: 1.0.0
 ---
 
-# okk_init — Project Governance Skill
+# Okk_Init — Project Governance Skill
 
 ## Trigger: "okk init"
 

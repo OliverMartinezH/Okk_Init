@@ -1,4 +1,4 @@
-# okk_init — Project Governance Skill
+# Okk_Init — Project Governance Skill
 
 > **File-based "long-term memory" for AI agents.** Zero dependencies, works with any agent that can read files.
 
@@ -12,9 +12,9 @@
 
 ---
 
-## What is okk_init?
+## What is Okk_Init?
 
-AI agents forget your project context quickly — leading to mistakes, repeated explanations, or starting from scratch. **okk_init** creates 5 interconnected markdown files that summarize your project perfectly. Each time you start a session, the agent reads these files: it understands everything instantly, uses the minimum data possible, and guides you step by step to finish tasks without going in circles.
+AI agents forget your project context quickly — leading to mistakes, repeated explanations, or starting from scratch. **Okk_Init** creates 5 interconnected markdown files that summarize your project perfectly. Each time you start a session, the agent reads these files: it understands everything instantly, uses the minimum data possible, and guides you step by step to finish tasks without going in circles.
 
 ### The 5 Files
 
@@ -96,7 +96,7 @@ cp skills/cline/governance.md .clinerules/
 
 ## The 6 Questions
 
-When you run `okk init` for the first time, okk_init asks 6 questions to configure your project. Press **Enter** to accept the default.
+When you run `okk init` for the first time, Okk_Init asks 6 questions to configure your project. Press **Enter** to accept the default.
 
 | # | Question | Default | Why it matters |
 |---|----------|---------|----------------|
@@ -167,7 +167,7 @@ okk commit
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    okk_init Workflow                        │
+│                    Okk_Init Workflow                        │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
@@ -273,7 +273,7 @@ This creates an interactive graph in Obsidian:
 ## Repository Structure
 
 ```
-okk_init/
+Okk_Init/
 ├── README.md                      # This file
 ├── CONVENTIONS.md                 # Aider conventions
 ├── REFERENCE.md                   # Complete reference
@@ -318,9 +318,9 @@ MIT
 
 # Español
 
-## Qué es okk_init?
+## Qué es Okk_Init?
 
-Los agentes de IA olvidan el contexto de tu proyecto rápidamente — causando errores, explicaciones repetidas o empezando desde cero. **okk_init** crea 5 archivos markdown interconectados que resumen tu proyecto perfectamente. Cada vez que inicias una sesión, el agente lee estos archivos: entiende todo al instante, usa la mínima cantidad de datos y te guía paso a paso para terminar tareas sin dar vueltas.
+Los agentes de IA olvidan el contexto de tu proyecto rápidamente — causando errores, explicaciones repetidas o empezando desde cero. **Okk_Init** crea 5 archivos markdown interconectados que resumen tu proyecto perfectamente. Cada vez que inicias una sesión, el agente lee estos archivos: entiende todo al instante, usa la mínima cantidad de datos y te guía paso a paso para terminar tareas sin dar vueltas.
 
 ### Los 5 Archivos
 
@@ -402,7 +402,7 @@ cp skills/cline/governance.md .clinerules/
 
 ## Las 6 Preguntas
 
-Cuando ejecutas `okk init` por primera vez, okk_init hace 6 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
+Cuando ejecutas `okk init` por primera vez, Okk_Init hace 6 preguntas para configurar tu proyecto. Presiona **Enter** para aceptar el valor por defecto.
 
 | # | Pregunta | Por defecto | Por qué importa |
 |---|----------|-------------|------------------|
@@ -473,7 +473,7 @@ okk commit
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                  Flujo de Trabajo okk_init                  │
+│                  Flujo de Trabajo Okk_Init                  │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌───────────┐    ┌──────────┐    ┌──────────┐             │
@@ -504,7 +504,7 @@ okk commit
 ## Estructura del Repositorio
 
 ```
-okk_init/
+Okk_Init/
 ├── README.md                      # Este archivo
 ├── CONVENTIONS.md                 # Convenciones para Aider
 ├── REFERENCE.md                   # Referencia completa
